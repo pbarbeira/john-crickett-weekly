@@ -12,10 +12,10 @@
 #include <sstream>
 
 class Lexer {
-    int _iPtr;
-    std::string _input;
+    static int _iPtr;
+    static std::string _input;
 
-    std::unique_ptr<Token> _nextToken;
+    static std::unique_ptr<Token> _nextToken;
 
     static std::string _removeWhitespace(const std::string& s){
         std::stringstream ss;
@@ -27,7 +27,7 @@ class Lexer {
         return ss.str();
     }
 
-    std::unique_ptr<Token> _parseStringToken(const char& c){
+    static std::unique_ptr<Token> _parseStringToken(const char& c){
         std::stringstream ss;
         ss << c;
         do{
@@ -36,7 +36,7 @@ class Lexer {
         return std::make_unique<Token>(ss.str(), STRING);
     }
 
-    std::unique_ptr<Token> _parseNumberToken(const char& c){
+    static std::unique_ptr<Token> _parseNumberToken(const char& c){
         std::stringstream ss;
         ss << c;
         do{
@@ -45,7 +45,7 @@ class Lexer {
         return std::make_unique<Token>(ss.str(), NUMBER);
     }
 
-    std::unique_ptr<Token> _parseTrueToken(const char& c){
+    static std::unique_ptr<Token> _parseTrueToken(const char& c){
         std::stringstream ss;
         ss << c;
         do{
@@ -54,7 +54,7 @@ class Lexer {
         return std::make_unique<Token>(ss.str(), TRUE);
     }
 
-    std::unique_ptr<Token> _parseFalseToken(const char& c){
+    static std::unique_ptr<Token> _parseFalseToken(const char& c){
         std::stringstream ss;
         ss << c;
         do{
@@ -63,7 +63,7 @@ class Lexer {
         return std::make_unique<Token>(ss.str(), FALSE);
     }
 
-    std::unique_ptr<Token> _parseNullToken(const char& c){
+    static std::unique_ptr<Token> _parseNullToken(const char& c){
         std::stringstream ss;
         ss << c;
         do{
@@ -73,12 +73,14 @@ class Lexer {
     }
 
 public:
-    explicit Lexer(const std::string& input) :
-        _iPtr(0){
-        _input = std::move(_removeWhitespace(input));
+    Lexer() = delete;
+
+    static void registerInput(const std::string& input) {
+        _iPtr = 0;
+        _input = _removeWhitespace(input);
     }
 
-    std::unique_ptr<Token> nextToken(){
+    static std::unique_ptr<Token> nextToken(){
         if (_nextToken != nullptr) {
             std::unique_ptr<Token> out = std::move(_nextToken);
             _nextToken = nullptr;
@@ -91,27 +93,35 @@ public:
             case ']': return std::make_unique<Token>(std::string(1, c), RIGHT_SQUARE);
             case ':': return std::make_unique<Token>(std::string(1, c), COLON);
             case ',': return std::make_unique<Token>(std::string(1, c), COMMA);
-            case 't': return this->_parseTrueToken(c);
-            case 'f': return this->_parseFalseToken(c);
-            case 'n': return this->_parseNullToken(c);
-            case '\"': return this->_parseStringToken(c);
+            case 't': return _parseTrueToken(c);
+            case 'f': return _parseFalseToken(c);
+            case 'n': return _parseNullToken(c);
+            case '\"': return _parseStringToken(c);
             default:
                 if(isdigit(_input[_iPtr])){
-                    return this->_parseNumberToken(c);
+                    return _parseNumberToken(c);
                 }
                 throw std::invalid_argument("Lexer error");
         }
     }
 
-    [[nodiscard]] bool hasNextToken() const {
-        return _iPtr < _input.length();
+    [[nodiscard]] static bool hasNextToken() {
+        if (_iPtr >= _input.length()) {
+            _iPtr = 0;
+            _input.clear();
+        }
+        return !_input.empty();
     }
 
-    Token* peekNextToken() {
-        std::unique_ptr<Token> nextToken = this->nextToken();
-        _nextToken = std::move(nextToken);
+    static Token* peekNextToken() {
+        std::unique_ptr<Token> next = nextToken();
+        _nextToken = std::move(next);
         return _nextToken.get();
     }
 };
+
+int Lexer::_iPtr = 0;
+std::string Lexer::_input;
+std::unique_ptr<Token> Lexer::_nextToken = nullptr;
 
 #endif //LEXER_H

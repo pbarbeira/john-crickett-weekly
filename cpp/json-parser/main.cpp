@@ -1,16 +1,9 @@
 #include <iostream>
-#include "Lexer.h"
-#include <vector>
+#include "Parser.h"
 
 int main() {
-    std::string str = "{}[]:,truefalsenull\"test\"12.3";
-    Lexer lexer = Lexer(str);
-    std::vector<std::unique_ptr<Token>> v;
-    while (lexer.hasNextToken()) {
-        v.push_back(std::move(lexer.nextToken()));
-    }
-    for (int i = 0; i < v.size(); i++) {
-        std::cout << v[i]->token << std::endl;
-    }
+    std::string jsonStr = R"({"key":["list1","list2","list3"]})";
+    auto node = Parser::parse(jsonStr);
+    node->print();
     return 0;
 }
