@@ -39,9 +39,9 @@ class Lexer {
     static std::unique_ptr<Token> _parseNumberToken(const char& c){
         std::stringstream ss;
         ss << c;
-        do{
+        while(_input[_iPtr] == '.' || isdigit(_input[_iPtr])){
             ss << _input[_iPtr++];
-        }while(_input[_iPtr] == '.' || isdigit(_input[_iPtr]));
+        }
         return std::make_unique<Token>(ss.str(), NUMBER);
     }
 
@@ -98,7 +98,7 @@ public:
             case 'n': return _parseNullToken(c);
             case '\"': return _parseStringToken(c);
             default:
-                if(isdigit(_input[_iPtr])){
+                if(isdigit(c)){
                     return _parseNumberToken(c);
                 }
                 throw std::invalid_argument("Lexer error");

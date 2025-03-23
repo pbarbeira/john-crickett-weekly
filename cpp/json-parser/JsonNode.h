@@ -21,11 +21,9 @@ class JsonNode{
         NodeType _type;
 
         std::vector<std::unique_ptr<JsonNode>>::iterator _findKey(const std::string& key){
-            return std::find_if(_children.begin(), _children.end(),
-                [key](const std::unique_ptr<JsonNode>& child){
+            return std::ranges::find_if(_children, [key](const std::unique_ptr<JsonNode>& child){
                     return child->_key == key;
-                }
-            );
+                });
         }
 
         void _printIndent(int level) {
@@ -76,10 +74,11 @@ class JsonNode{
 
         bool addChild(const std::string& key, std::unique_ptr<JsonNode> child){
             if (!key.empty()) {
-                if(_findKey(key) != _children.end()){
+                std::string cleanKey = key.substr(1, key.size() - 2);
+                if(_findKey(cleanKey) != _children.end()){
                     return false;
                 }
-                child->_key = key;
+                child->_key = cleanKey;
             }
             _children.emplace_back(std::move(child));
             return true;
