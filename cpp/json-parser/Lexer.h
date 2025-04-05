@@ -18,7 +18,7 @@ class Lexer {
     static std::unique_ptr<Token> _nextToken;
 
     static std::string _removeWhitespace(const std::string& s){
-        std::stringstream ss;
+        std::stringstream ss;![[Pasted image 20250403143332.png]]
         for(int i = 0; i < s.length(); i++){
             if(!isspace(s[i])){
                 ss << s[i];
