@@ -24,6 +24,7 @@ add_executable(run_tests tests/test_main.cpp
         tests/utils/test_ByteConverter.cpp
         tests/utils/test_StringUtils.cpp
         tests/integration/tests_integration.cpp
+        tests/testAscii.txt
 )
 
 target_link_libraries(run_tests gtest gmock gtest_main)

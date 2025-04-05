@@ -18,7 +18,7 @@ class HuffmanFactory{
      * @param encode boolean representing whether we're encoding or decoding
      * @return unique pointer to the created instance
      */
-    static std::unique_ptr<HuffmanEngine> build(const bool& encode){
+    static std::unique_ptr<HuffmanEngine> build(const bool& encode = true){
             if(encode){
               return std::make_unique<HuffmanEncodeEngine>();
             }
