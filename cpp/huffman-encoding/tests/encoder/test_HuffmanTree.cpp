@@ -87,3 +87,13 @@ TEST(HuffmanTreeTest, EncodesHeaderProperly) {
     EXPECT_EQ(expected, result);
     HuffmanTree::resetId();
 }
+
+TEST(HuffmanTreeTest, BuildFromEncodedHeader) {
+    const std::string encodedHeader = "15,6,14|6,e|14,12,13|12,1,7|13,4,11|1,u|7,d|4,l|11,8,10|8,c|10,9,3|9,2,5|3,m|2,z|5,k|=";
+
+    const auto root = HuffmanTree::buildTree(encodedHeader);
+
+    const auto result = HuffmanTree::encodeHeader(root.get());
+
+    EXPECT_EQ(encodedHeader, result);
+}

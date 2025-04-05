@@ -22,7 +22,20 @@ class Decoder {
      * @return the original decoded string.
      */
     static std::string _decodeBody(const std::string& bitstream, HuffmanNode* node) {
-
+        std::stringstream ss;
+        HuffmanNode* tmpNode = node;;
+        for (char c : bitstream) {
+            if (c == '0') {
+                tmpNode = tmpNode->left.get();
+            }else if (c == '1') {
+                tmpNode = tmpNode->right.get();
+            }
+            if (tmpNode->isLeaf()) {
+                ss << tmpNode->letter;
+                tmpNode = node;
+            }
+        }
+        return ss.str();
     }
 
     public:
@@ -42,8 +55,7 @@ class Decoder {
 
             //skip the '=1'
             const std::string bodyData(++++stopItr, data.end());
-            // return _decodeBody(bodyData, root.get());
-            return "";
+            return _decodeBody(bodyData, root.get());
         }
 
 };

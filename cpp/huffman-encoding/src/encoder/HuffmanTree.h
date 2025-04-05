@@ -42,6 +42,9 @@ struct HuffmanNode{
     HuffmanNode():
         id(nextId++){}
 
+    explicit HuffmanNode(const int id):
+        id(id){}
+
     /**
      * Checks if this HuffmanNode is a Leaf.
      * @return true if the Node is a Leaf, false otherwise.
@@ -113,6 +116,7 @@ class HuffmanTree{
         std::unordered_map<int, std::unique_ptr<NodeData>> nodes;
         auto nodeTokens = StringUtils::split(data, '|');
         for (const auto& token : nodeTokens) {
+            if (token == "=") break;
             auto valueTokens = StringUtils::split(token, ',');
             int id = std::stoi(valueTokens[0]);
             auto nodeData = std::make_unique<NodeData>(id);
@@ -191,16 +195,35 @@ class HuffmanTree{
      * @return unique pointer to the built HuffmanTree's root.
      */
     static std::unique_ptr<HuffmanNode> buildTree(const std::string& str){
-            auto nodes = _buildNodes(str);
-            auto rootId = _getRootId(str);
+        const auto nodes = std::move(_buildNodes(str));
 
-            std::queue<int> queue;
-            queue.push(rootId);
-            while (!queue.empty()) {
+        const auto rootId = _getRootId(str);
+        auto root = std::make_unique<HuffmanNode>(rootId);
 
+        std::queue<HuffmanNode*> queue;
+        queue.push(root.get());
+        while (!queue.empty()) {
+            const auto node = queue.front();
+            queue.pop();
+
+            const auto data = nodes.at(node->id).get();
+            if (data->isLeaf()) {
+                node->letter = data->value;
+                continue;
             }
-            return nullptr;
+
+            auto left = std::make_unique<HuffmanNode>(data->leftId);
+            auto right = std::make_unique<HuffmanNode>(data->rightId);
+
+            queue.push(left.get());
+            queue.push(right.get());
+
+            node->left = std::move(left);
+            node->right = std::move(right);
         }
+
+        return std::move(root);
+    }
 
     /**
      * Encodes the tree as alist of character frequencies. Used for testing purposes.

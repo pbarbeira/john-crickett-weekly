@@ -8,6 +8,7 @@
 #include <string>
 
 #include "encoder/CharCounter.h"
+#include "encoder/Decoder.h"
 #include "encoder/Encoder.h"
 #include "utils/Reader.h"
 #include "utils/Writer.h"
@@ -70,7 +71,13 @@ class HuffmanDecodeEngine final : public HuffmanEngine{
      * @param outputFile the path to the output file.
      */
     void run(const std::string& inputFile, const std::string& outputFile) override{
-            std::cout << "To implement";
+            const auto bytes = HmcReader::readBytes(inputFile);
+            const auto text = ByteConverter::fromBytes(bytes);
+
+            auto decoded = Decoder::decode(text);
+            Writer::writeString(outputFile, text);
+
+            std::cout << std::format("File saved at {}", outputFile) << std::endl;
         };
 };
 

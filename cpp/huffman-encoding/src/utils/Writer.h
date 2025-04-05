@@ -21,8 +21,8 @@ class Writer {
      * @param str the string to be written.
      */
     static void write(std::ostream& out, const std::string& str) {
-            out << str;
-        }
+        out << str;
+    }
 
     /**
      * Writes a byte string to a given output stream.
@@ -30,8 +30,17 @@ class Writer {
      * @param bytes the byte string to be written.
      */
     static void write(std::ostream& out, const std::vector<uint8_t>& bytes) {
-            out.write(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+        out.write(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+    }
+
+    static void writeString(const std::string& filepath, const std::string& str) {
+        if (std::ofstream outFile(filepath); outFile.is_open()) {
+            outFile << str;
+            outFile.close();
+            return;
         }
+        throw std::runtime_error("Could not open output file");
+    }
 };
 
 /**
@@ -60,15 +69,15 @@ class HmcWriter : public Writer {
      * @param body the .hmc body data.
      */
     static void writeBody(const std::string& filepath, const std::string& body) {
-            const std::vector<uint8_t> bytes = ByteConverter::toBytes(body);
+        const std::vector<uint8_t> bytes = ByteConverter::toBytes(body);
 
-            if (std::ofstream out(filepath, std::ios::app | std::ios::binary); out.is_open()) {
-                write(out, bytes);
-                out.close();
-                return;
-            }
-            throw std::runtime_error("Could not open file");
+        if (std::ofstream out(filepath, std::ios::app | std::ios::binary); out.is_open()) {
+            write(out, bytes);
+            out.close();
+            return;
         }
+        throw std::runtime_error("Could not open file");
+    }
 };
 
 #endif //FILEWRITER_H

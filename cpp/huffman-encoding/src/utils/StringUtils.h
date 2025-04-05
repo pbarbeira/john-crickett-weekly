@@ -29,7 +29,7 @@ class StringUtils {
                     out.push_back(s.substr(last, i - last));
                     last = i + 1;
                 }
-                if (i == s.length() - 1 && last < i) {
+                if (i == s.length() - 1 && last <= i) {
                     out.push_back(s.substr(last));
                 }
             }
