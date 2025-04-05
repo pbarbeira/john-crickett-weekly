@@ -33,32 +33,33 @@ class Encoder {
     }
 
     public:
-    /**
-     * Base constructor. Receives a pointer to a Huffman Tree's root and
-     * uses it to build the prefix table.
-     * @param root the root of the HuffmanTree.
-     */
-    explicit Encoder(HuffmanNode* root){
+        /**
+         * Base constructor. Receives a pointer to a Huffman Tree's root and
+         * uses it to build the prefix table.
+         * @param root the root of the HuffmanTree.
+         */
+        explicit Encoder(HuffmanNode* root){
             _encodeNode(root, "");
         }
 
-    /**
-     * Returns the prefix table
-     * @return the prefix table.
-     */
-    std::unordered_map<char, std::string> getPrefixTable() const {
+        /**
+         * Returns the prefix table
+         * @return the prefix table.
+         */
+        std::unordered_map<char, std::string> getPrefixTable() const {
             return _prefixTable;
         }
 
-    /**
-     * Encodes a given input string using Huffman Encoding by inspecting
-     * the prefix table and appending the corresponding prefix for each
-     * character of the string.
-     * @param input the text to be encoded.
-     * @return the encoded text.
-     */
-    std::string encode(const std::string &input) const {
+        /**
+         * Encodes a given input string using Huffman Encoding by inspecting
+         * the prefix table and appending the corresponding prefix for each
+         * character of the string.
+         * @param input the text to be encoded.
+         * @return the encoded text.
+         */
+        std::string encode(const std::string &input) const {
             std::stringstream ss;
+
             for (int i = 0; i < input.size(); i++) {
                 if (char c = input[i]; _prefixTable.contains(c)) {
                     ss << _prefixTable.at(c);

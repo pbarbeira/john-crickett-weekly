@@ -1,0 +1,2 @@
+This is some simple ascii file, small and with simple characters, to test out
+the decoding function.

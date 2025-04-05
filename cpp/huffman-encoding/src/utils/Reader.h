@@ -43,9 +43,11 @@ class HmcReader : public Reader {
     public:
         static std::vector<uint8_t> readBytes(const std::string& filepath) {
             std::ifstream inFile(filepath, std::ios::binary);
-
-            auto ret = Reader::readBytes(inFile);
-            inFile.close();
+            std::vector<uint8_t> ret;
+            if (inFile.is_open()) {
+                ret = Reader::readBytes(inFile);
+                inFile.close();
+            }
 
             return ret;
         }

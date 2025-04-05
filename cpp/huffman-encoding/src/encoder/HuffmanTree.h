@@ -80,7 +80,7 @@ struct NodeData {
      * @return true if the Node is a Leaf, false otherwise.
      */
     bool isLeaf() const{
-        return value != '\0' && leftId == -1 && rightId == -1;
+        return leftId == -1 && rightId == -1;
     }
 
 };
@@ -116,13 +116,21 @@ class HuffmanTree{
     static std::unordered_map<int, std::unique_ptr<NodeData>> _buildNodes(const std::string& data){
         std::unordered_map<int, std::unique_ptr<NodeData>> nodes;
         auto nodeTokens = StringUtils::split(data, '|');
-        for (const auto& token : nodeTokens) {
+        for (int i = 0; i < nodeTokens.size(); i++) {
+            auto token = nodeTokens[i];
             if (token == "=") break;
             auto valueTokens = StringUtils::split(token, ',');
             int id = std::stoi(valueTokens[0]);
             auto nodeData = std::make_unique<NodeData>(id);
             if (valueTokens.size() == 2) {
-                nodeData->value = valueTokens[1][0];
+                std::string value = valueTokens[1];
+                char ch = value[0];
+                if (value == "\\c") ch = ',';
+                if (value == "\\n") ch = '\n';
+                if (value == "\\s") ch = ' ';
+                if (value == "\\t") ch = '\t';
+
+                nodeData->value = ch;
             }else {
                 nodeData->leftId = std::stoi(valueTokens[1]);
                 nodeData->rightId = std::stoi(valueTokens[2]);
@@ -206,9 +214,12 @@ class HuffmanTree{
         while (!queue.empty()) {
             const auto node = queue.front();
             queue.pop();
-
+            if (!nodes.contains(node->id)) {
+                std::cout << node->id << std::endl;
+            }
             const auto data = nodes.at(node->id).get();
             if (data->isLeaf()) {
+
                 node->letter = data->value;
                 continue;
             }
@@ -255,7 +266,7 @@ class HuffmanTree{
      * @return the file header according to the .hmc specification.
      */
     static std::string encodeHeader(HuffmanNode* node) {
-            std::stringstream ss;
+            std::string out = "";
             std::queue<HuffmanNode*> queue;
             queue.push(node);
             while (!queue.empty()) {
@@ -263,19 +274,32 @@ class HuffmanTree{
                 queue.pop();
 
                 if (tmpNode->isLeaf()) {
-                    ss << std::format("{},{}|", tmpNode->id, tmpNode->letter);
+                    std::string letter(1, tmpNode->letter);
+                    if (letter == ",") {
+                        letter = "\\c";
+                    }
+                    if (letter == "\n") {
+                        letter = "\\n";
+                    }
+                    if (letter == " ") {
+                        letter = "\\s";
+                    }
+                    if (letter == "\t") {
+                        letter = "\\t";
+                    }
+                    out += std::format("{},{}|", tmpNode->id, letter);
                 }else {
                     auto left = tmpNode->left.get();
                     auto right = tmpNode->right.get();
 
-                    ss << std::format("{},{},{}|", tmpNode->id, left->id, right->id);
+                    out += std::format("{},{},{}|", tmpNode->id, left->id, right->id);
 
                     queue.push(left);
                     queue.push(right);
                 }
             }
-            ss << "=";
-            return ss.str();
+            out += "=";
+            return out;
         }
 
     /**

@@ -75,7 +75,7 @@ class HuffmanDecodeEngine final : public HuffmanEngine{
             const auto text = ByteConverter::fromBytes(bytes);
 
             auto decoded = Decoder::decode(text);
-            Writer::writeString(outputFile, text);
+            Writer::writeString(outputFile, decoded);
 
             std::cout << std::format("File saved at {}", outputFile) << std::endl;
         };
