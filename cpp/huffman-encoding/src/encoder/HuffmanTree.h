@@ -12,43 +12,86 @@
 #include <unordered_map>
 #include <queue>
 
-#include "StringUtils.h"
+#include "../utils/StringUtils.h"
 
 using ull = unsigned long long;
 
+//Automatically sets the id of the next node.
 inline int nextId = 1;
 
+/**
+ * Auxiliary data structure to keep the Node-related information.
+ */
 struct HuffmanNode{
+    //The id of the Node.
     int id;
+
+    //The letter of the node, if it is a Leaf
     char letter{};
+    //The frequency of the node, if it is a Leaf
     int freq{};
+
+    //Pointer to the left node, if it is a Node
     std::unique_ptr<HuffmanNode> left;
+    //Pointer to the right node, if it is a Node
     std::unique_ptr<HuffmanNode> right;
 
+    /**
+     * Default HuffmanNode constructor. Automatically sets the Node's ID.
+     */
     HuffmanNode():
         id(nextId++){}
 
+    /**
+     * Checks if this HuffmanNode is a Leaf.
+     * @return true if the Node is a Leaf, false otherwise.
+     */
     [[nodiscard]] bool isLeaf() const {
         return left == nullptr && right == nullptr;
     }
 };
 
+/**
+ * Auxiliary data structure to keep NodeData as references between conversions.
+ */
 struct NodeData {
+    //The Node's ID
     int id;
+    //The ID of the node's left Node
     int leftId;
+    //The ID of the node's right Node
     int rightId;
+    //The Node's value.
     char value;
 
+    /**
+     * Default NodeData constructor.
+     * @param id the id of the Node.
+     */
     explicit NodeData(const int& id):
         id(id), leftId(-1), rightId(-1), value('\0'){}
 
+    /**
+     * Checks if this NodeData is a Leaf.
+     * @return true if the Node is a Leaf, false otherwise.
+     */
     bool isLeaf() const{
         return value != '\0' && leftId == -1 && rightId == -1;
     }
 
 };
 
+/**
+ * Static class that encapsulates most algorithmic behavir and operations that
+ * require the Huffman Tree.
+ */
 class HuffmanTree{
+    /**
+     * Builds a list of the existing HuffmanNodes from the character frequency
+     * table. Used to build the tree using the maxHeap algorithm.
+     * @param frequencies the character frequency table.
+     * @return the list of build HuffmanNodes.
+     */
     static std::vector<std::unique_ptr<HuffmanNode>> _buildNodes(const std::unordered_map<char, ull>& frequencies){
         std::vector<std::unique_ptr<HuffmanNode>> nodes;
         std::ranges::for_each(frequencies, [&](const auto& pair){
@@ -60,6 +103,12 @@ class HuffmanTree{
         return nodes;
     }
 
+    /**
+     * Builds a map containing the tree's nodes' metadata from the .hmc header
+     * string data. Used to build the HuffmanTree when decoding.
+     * @param data the .hmc header data.
+     * @return the tree's metadata.
+     */
     static std::unordered_map<int, std::unique_ptr<NodeData>> _buildNodes(const std::string& data){
         std::unordered_map<int, std::unique_ptr<NodeData>> nodes;
         auto nodeTokens = StringUtils::split(data, '|');
@@ -78,10 +127,22 @@ class HuffmanTree{
         return nodes;
     }
 
+    /**
+     * Heap compare function used in the maxHeap used to build the HuffmanTree
+     * from the character frequency table.
+     * @param lhs the left hand side HuffmanNode.
+     * @param rhs the right hand side HuffmanNode.
+     * @return the largest HuffmanNode.
+     */
     static bool _heapCmp(const std::unique_ptr<HuffmanNode>& lhs, const std::unique_ptr<HuffmanNode>& rhs) {
         return lhs->freq > rhs->freq;
     }
 
+    /**
+     * Wraps heap access behavior to easily extract the first element.
+     * @param nodes the heap.
+     * @return the element at the front of the heap.
+     */
     static std::unique_ptr<HuffmanNode> _getHeapFront(std::vector<std::unique_ptr<HuffmanNode>>& nodes) {
         auto out = std::move(nodes.front());
         std::ranges::pop_heap(nodes, _heapCmp);
@@ -89,6 +150,11 @@ class HuffmanTree{
         return std::move(out);
     }
 
+    /**
+     * Extract's the tree's root node's id from the .hmc header string data.
+     * @param str the .hmc header data.
+     * @return the root node's id.
+     */
     static int _getRootId(const std::string& str) {
         for (int i = 0; i < str.size(); i++) {
             if (str[i] == ',') {
@@ -100,7 +166,12 @@ class HuffmanTree{
     }
 
     public:
-        static std::unique_ptr<HuffmanNode> buildTree(const std::unordered_map<char, ull>& frequencies){
+    /**
+     * Builds an HuffmanTree from the character frequency table.
+     * @param frequencies the character frequency table.
+     * @return unique pointer to the built HuffmanTree's root.
+     */
+    static std::unique_ptr<HuffmanNode> buildTree(const std::unordered_map<char, ull>& frequencies){
             auto nodes = _buildNodes(frequencies);
             std::ranges::make_heap(nodes, _heapCmp);
             while (nodes.size() != 1) {
@@ -114,18 +185,29 @@ class HuffmanTree{
             return std::move(nodes.front());
         }
 
-        static std::unique_ptr<HuffmanNode> buildTree(const std::string& str){
+    /**
+     * Builds and HuffmanTree from the .hmc header information.
+     * @param str the .hmc header information.
+     * @return unique pointer to the built HuffmanTree's root.
+     */
+    static std::unique_ptr<HuffmanNode> buildTree(const std::string& str){
             auto nodes = _buildNodes(str);
             auto rootId = _getRootId(str);
 
             std::queue<int> queue;
             queue.push(rootId);
             while (!queue.empty()) {
-                                
+
             }
+            return nullptr;
         }
 
-        static std::vector<int> encodeFrequency(HuffmanNode* node) {
+    /**
+     * Encodes the tree as alist of character frequencies. Used for testing purposes.
+     * @param node the root of the tree.
+     * @return the list with the tree's frequencies.
+     */
+    static std::vector<int> encodeFrequency(HuffmanNode* node) {
             std::queue<HuffmanNode*> queue;
             queue.push(node);
             std::vector<int> out;
@@ -143,7 +225,12 @@ class HuffmanTree{
             return out;
         }
 
-        static std::string encodeHeader(HuffmanNode* node) {
+    /**
+     * Stores the tree's information according the .hmc header specification.
+     * @param node the root of the tree.
+     * @return the file header according to the .hmc specification.
+     */
+    static std::string encodeHeader(HuffmanNode* node) {
             std::stringstream ss;
             std::queue<HuffmanNode*> queue;
             queue.push(node);
@@ -167,7 +254,10 @@ class HuffmanTree{
             return ss.str();
         }
 
-        static void resetId() {
+    /**
+     * Used to reset the global ID counter. Used for testing purposes.
+     */
+    static void resetId() {
             nextId = 1;
         }
 

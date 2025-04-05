@@ -11,9 +11,18 @@
 
 using ull = unsigned long long;
 
+/**
+ * Encapsulates the character counting logic required to build the frequency
+ * table.
+ */
 class CharCounter{
     public:
-        static std::unordered_map<char, ull> countChars(const std::string& str){
+    /**
+     * Counts how many times each character in a given string appears in it.
+     * @param str the input string.
+     * @return a map containing the character frequencies.
+     */
+    static std::unordered_map<char, ull> countChars(const std::string& str){
             std::unordered_map<char, ull> charCounts;
             std::ranges::for_each(str, [&charCounts](const char& c){
                 if(!charCounts.contains(c)){

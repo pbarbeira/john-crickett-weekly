@@ -1,0 +1,5 @@
+Hello
+
+This, my dear friends, is a test file.
+
+It is used to exemplify.

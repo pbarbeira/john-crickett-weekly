@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/Encoder.h"
+#include "../../src/encoder/Encoder.h"
 
 std::unique_ptr<HuffmanNode> _buildTestTree() {
     const std::unordered_map<char, unsigned long long> map = {
@@ -25,7 +25,7 @@ TEST(EncoderTest, CanBuildMap) {
     const auto root = _buildTestTree();
 
     const Encoder encoder(root.get());
-    const auto encoded = encoder.getMap();
+    const auto encoded = encoder.getPrefixTable();
 
     EXPECT_EQ(encoded.size(), 8);
     EXPECT_EQ(encoded.at('e'), "0");

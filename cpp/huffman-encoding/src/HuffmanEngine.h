@@ -1,0 +1,77 @@
+//
+// Created by pbarbeira on 05-04-2025.
+//
+
+#ifndef HUFFMANENGINE_H
+#define HUFFMANENGINE_H
+
+#include <string>
+
+#include "encoder/CharCounter.h"
+#include "encoder/Encoder.h"
+#include "utils/Reader.h"
+#include "utils/Writer.h"
+
+/**
+ * Pure virtual class. Used to encapsulate Encode and Decode behaviors.
+ */
+class HuffmanEngine{
+    public:
+    /**
+     * Default virtual destructor.
+     */
+    virtual ~HuffmanEngine() = default;
+
+    /**
+     * Pure virtual function to be implemented by the Encode and Decode Engines.
+     * Receives a path to an input file and a path to an output file.
+     * @param inputFile the path to the input file.
+     * @param outputFile the path to the output file.
+     */
+    virtual void run(const std::string& inputFile, const std::string& outputFile) = 0;
+};
+
+/**
+ * Encode Engine API. Encapsulates the encoding process.
+ */
+class HuffmanEncodeEngine final : public HuffmanEngine{
+    public:
+    /**
+     * Takes an input file and compresses it into an ouput file using
+     * HuffmanEnconding.
+     * @param inputFile the path to the input file.
+     * @param outputFile the path to the output file.
+     */
+    void run(const std::string& inputFile, const std::string& outputFile) override{
+            const std::string text = HmcReader::readAsString(inputFile);
+            const auto frequencyMap = CharCounter::countChars(text);
+            const auto root = HuffmanTree::buildTree(frequencyMap);
+
+            const auto header = HuffmanTree::encodeHeader(root.get());
+            HmcWriter::writeHeader(outputFile, header);
+
+            const auto encoder = Encoder(root.get());
+            const auto body = encoder.encode(text);
+            HmcWriter::writeBody(outputFile, body);
+
+            std::cout << std::format("File saved at {}", outputFile) << std::endl;
+        };
+};
+
+/**
+ * Decode Engine API. Encapsulates the decoding process.
+ */
+class HuffmanDecodeEngine final : public HuffmanEngine{
+    public:
+    /**
+     * Takes an input file compressed with Huffman Enconding and decompresses
+     * it into an outputFile.
+     * @param inputFile the path to the input file.
+     * @param outputFile the path to the output file.
+     */
+    void run(const std::string& inputFile, const std::string& outputFile) override{
+            std::cout << "To implement";
+        };
+};
+
+#endif //HUFFMANENGINE_H

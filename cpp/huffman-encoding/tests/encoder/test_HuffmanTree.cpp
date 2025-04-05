@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/HuffmanTree.h"
+#include "../../src/encoder/HuffmanTree.h"
 #include <unordered_map>
 
 using ull = unsigned long long;

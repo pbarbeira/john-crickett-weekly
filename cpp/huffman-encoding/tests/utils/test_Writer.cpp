@@ -4,14 +4,14 @@
 
 #include <gtest/gtest.h>
 
-#include "../src/Reader.h"
-#include "../src/Writer.h"
+#include "../../src/utils/Reader.h"
+#include "../../src/utils/Writer.h"
 
 TEST(FileWriterTest, WritesHeader) {
     std::string header = "15,6,14|6,e|14,12,13|12,1,7|13,4,11|1,u|7,d|4,l|11,8,10|8,c|10,9,3|9,2,5|3,m|2,z|5,k|=";
     std::string filepath = "./testWriter.txt";
 
-    FileWriter::writeHeader(filepath, header);
+    HmcWriter::writeHeader(filepath, header);
 
     std::ifstream file(filepath);
     std::string line;
@@ -29,9 +29,9 @@ TEST(FileWriterTest, WritesBody) {
     std::string body = "0101100110111100111111111011110";
     std::string filepath = "./testWriter";
 
-    FileWriter::writeBody(filepath, body);
+    HmcWriter::writeBody(filepath, body);
 
-    auto bytes = FileReader::readBytes(filepath);
+    auto bytes = HmcReader::readBytes(filepath);
     std::remove(filepath.c_str());
 
     EXPECT_EQ(bytes.size(), expected.size());
@@ -54,10 +54,10 @@ TEST(FileWriterTest, WritesEncodedFile) {
     std::string body = "0101100110111100111111111011110";
     std::string filepath = "./testWriter";
 
-    FileWriter::writeHeader(filepath, header);
-    FileWriter::writeBody(filepath, body);
+    HmcWriter::writeHeader(filepath, header);
+    HmcWriter::writeBody(filepath, body);
 
-    auto bytes = FileReader::readBytes(filepath);
+    auto bytes = HmcReader::readBytes(filepath);
     std::remove(filepath.c_str());
 
     EXPECT_EQ(bytes.size(), expected.size());

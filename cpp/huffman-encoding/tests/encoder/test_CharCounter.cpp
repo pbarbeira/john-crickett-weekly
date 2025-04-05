@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/CharCounter.h"
+#include "../../src/encoder/CharCounter.h"
 #include <fstream>
 
 TEST(CharCounterTest, CanHandleEmptyString) {

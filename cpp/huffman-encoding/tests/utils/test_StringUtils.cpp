@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/StringUtils.h"
+#include "../../src/utils//StringUtils.h"
 
 TEST(StringUtilsTest, TokenizeComma) {
     const std::vector<std::string> EXPECTED = { "12", "13", "14"};

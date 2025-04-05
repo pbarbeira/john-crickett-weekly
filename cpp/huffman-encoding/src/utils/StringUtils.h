@@ -8,9 +8,20 @@
 #include <vector>
 #include <string>
 
+/**
+ * Static string utility class to encapsulate some common operations. While
+ * this could've been done procedurally, using a static class allows us
+ * another dimension of communication of intent within the code.
+ */
 class StringUtils {
     public:
-        static std::vector<std::string> split(const std::string& s, const char delim) {
+    /**
+     * Splits a string in a list of tokens using delim as a delimiter character.
+     * @param s the string to be split.
+     * @param delim the delimiter character.
+     * @return the list of split tokens
+     */
+    static std::vector<std::string> split(const std::string& s, const char delim) {
             std::vector<std::string> out;
             int last = 0;
             for (int i = 0; i < s.length(); i++) {

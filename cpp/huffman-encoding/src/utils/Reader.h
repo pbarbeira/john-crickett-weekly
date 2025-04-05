@@ -7,10 +7,10 @@
 
 #include<fstream>
 #include <vector>
-#include <iostream>
 
-#include "../cmake-build-debug/_deps/googletest-src/googlemock/include/gmock/gmock-actions.h"
-
+/**
+ * Base reader class. Encapsulates reading strings and bytes to from input streams.
+ */
 class Reader{
     public:
         static std::vector<u_int8_t> readBytes(std::istream& in){
@@ -24,9 +24,22 @@ class Reader{
             in.read(reinterpret_cast<char*>(buffer.data()), size);
             return buffer;
         }
+
+        static std::string readAsString(std::istream& in) {
+            std::stringstream ss;
+            std::string buffer;
+            while (std::getline(in, buffer)) {
+                ss << buffer << '\n';
+                buffer.clear();
+            }
+            return ss.str();
+        }
 };
 
-class FileReader : public Reader {
+/**
+ * Specialized class to write .hmc files
+ */
+class HmcReader : public Reader {
     public:
         static std::vector<uint8_t> readBytes(const std::string& filepath) {
             std::ifstream inFile(filepath, std::ios::binary);
@@ -34,6 +47,16 @@ class FileReader : public Reader {
             auto ret = Reader::readBytes(inFile);
             inFile.close();
 
+            return ret;
+        }
+
+        static std::string readAsString(const std::string& filepath) {
+            std::ifstream inFile(filepath);
+            std::string ret;
+            if (inFile.is_open()) {
+                ret = Reader::readAsString(inFile);
+                inFile.close();
+            }
             return ret;
         }
 };

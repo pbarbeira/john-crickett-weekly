@@ -4,8 +4,7 @@
 
 #include <gtest/gtest.h>
 
-#include "../src/ByteConverter.h"
-#include "../src/Decoder.h"
+#include "../../src/encoder/Decoder.h"
 
 
 

@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/ByteConverter.h"
+#include "../../src/utils/ByteConverter.h"
 
 TEST(ByteConverterTest, ConvertToBytes) {
     const std::string byteString = "0101100110111100111111111011110";
