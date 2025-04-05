@@ -21,17 +21,18 @@ int main(int argc, char* argv[]) {
         exit(1);
     }
 
-    const bool encode = "-e" == argv[1];
+    const std::string flag(argv[1]);
+    const bool encode = "-e" == flag;
     const std::string filepath(argv[2]);
 
     std::string outputpath = argc == 4 ? std::string(argv[3]) : encode ? "./encode.hmc" : "./decode.hmc";
 
-    if (!filepath.contains(EXT)) {
+    if (!filepath.contains(EXT) && !encode) {
         std::cerr << "Input file extension not supported\nExpected .hmc file" << std::endl;
         exit(1);
     }
 
-    if (!outputpath.contains(EXT)) {
+    if (!outputpath.contains(EXT) && encode) {
         std::cerr << "Output file extension not supported\nExpected .hmc file" << std::endl;
         exit(1);
     }

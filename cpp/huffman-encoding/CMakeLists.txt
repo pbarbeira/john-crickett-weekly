@@ -28,7 +28,7 @@ add_executable(run_tests tests/test_main.cpp
 
 target_link_libraries(run_tests gtest gmock gtest_main)
 
-add_executable(huffman_encoding src/main.cpp
+add_executable(henc src/main.cpp
         src/encoder/CharCounter.h
         src/encoder/Encoder.h
         src/encoder/HuffmanTree.h
