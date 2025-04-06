@@ -1,7 +1,6 @@
 //
 // Created by pbarbeira on 21-03-2025.
 //
-
 #ifndef LEXER_H
 #define LEXER_H
 
