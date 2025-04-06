@@ -22,22 +22,19 @@ class Scanner {
         explicit Scanner(const Options* options):
              _options(options) {}
 
-        std::unordered_map<Option, ull> getWcCounts(const std::string& input){
-            for (const auto& c : input) {
-                if (_options->options.at(Option::BYTE)) {
-                    _counts[Option::BYTE]++;
-                }
-                if (_options->options.at(Option::CHAR)) {
-                    _counts[Option::CHAR]++;
-                }
-                if (isspace(c)) {
-                    if (c == '\n' && _options->options.at(Option::LINE)) {
+        std::unordered_map<Option, ull> getWcCounts(const std::wstring& input){
+            _counts[Option::CHAR] = input.length();
+
+            for (int i = 0; i < input.length(); i++) {
+                if (const wchar_t c = input[i]; isspace(c)) {
+                    if (c == '\n') {
                         _counts[Option::LINE]++;
                     }
-                    if (_options->options.at(Option::WORD)) {
+                    if (!isspace(input[i - 1])) {
                         _counts[Option::WORD]++;
                     }
                 }
+
 
             }
             return _counts;

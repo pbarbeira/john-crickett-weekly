@@ -10,16 +10,9 @@
 
 class Reader{
     static std::string _readStream(std::istream& stream){
-        std::string out = "";
-        std::string buffer;
-        while (std::getline(stream, buffer)) {
-            if (!out.empty()) {
-                out += "\n";
-            }
-            out += buffer;
-            buffer.clear();
-        }
-        return out;
+        std::ostringstream buffer;
+        buffer << stream.rdbuf();
+        return buffer.str();
     }
 
     public:
