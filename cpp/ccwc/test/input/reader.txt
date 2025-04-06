@@ -1,0 +1,5 @@
+This is some input data to use in basic tests.
+
+It uses weird porutugese characters.
+
+Assunção é uma coisa bela!
