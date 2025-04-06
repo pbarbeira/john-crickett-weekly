@@ -83,6 +83,10 @@ class HuffmanDecodeEngine final : public HuffmanEngine{
             const auto bytes = HmcReader::readBytes(inputFile);
             const auto text = ByteConverter::fromBytes(bytes);
 
+            if (text.empty()) {
+                throw std::runtime_error("Input file is empty");
+            }
+
             auto decoded = Decoder::decode(text);
             Writer::writeString(outputFile, decoded);
 

@@ -7,8 +7,8 @@
 #include "../../src/utils/Reader.h"
 
 TEST(HuffmanEncodeEngineIntegrationTest, CanEncodeAndDecodeAsciiFile) {
-    std::string INPUT_FILE = "../tests/input/testAscii.txt";
-    std::string OUTPUT_FILE = "./encoded.hmc";
+    std::string INPUT_FILE = "tests/input/testAscii.txt";
+    std::string OUTPUT_FILE = "encoded.hmc";
 
     std::ifstream inFile(INPUT_FILE);
     std::string INPUT_TEXT = Reader::readAsString(inFile);
@@ -34,11 +34,14 @@ TEST(HuffmanEncodeEngineIntegrationTest, CanEncodeAndDecodeAsciiFile) {
     std::remove(OUTPUT_FILE.c_str());
 
     EXPECT_EQ(decodedText, INPUT_TEXT);
+
+    std::remove(INPUT_FILE.c_str());
+    std::remove(OUTPUT_FILE.c_str());
 }
 
 TEST(HuffmanEncodeEngineIntegrationTest, CanEncodeDecodeFewParagraphs) {
-    std::string INPUT_FILE = "../tests/input/testLorem.txt";
-    std::string OUTPUT_FILE = "./encoded.hmc";
+    std::string INPUT_FILE = "tests/input/testLorem.txt";
+    std::string OUTPUT_FILE = "encoded.hmc";
 
     std::ifstream inFile(INPUT_FILE);
     std::string INPUT_TEXT = Reader::readAsString(inFile);
@@ -64,11 +67,14 @@ TEST(HuffmanEncodeEngineIntegrationTest, CanEncodeDecodeFewParagraphs) {
     std::remove(OUTPUT_FILE.c_str());
 
     EXPECT_EQ(decodedText, INPUT_TEXT);
+
+    std::remove(INPUT_FILE.c_str());
+    std::remove(OUTPUT_FILE.c_str());
 }
 
 TEST(HuffmanEncodeEngineIntegrationTest, CanEncodeDecodeLargeText) {
-    std::string INPUT_FILE = "../tests/input/test.txt";
-    std::string OUTPUT_FILE = "./encoded.hmc";
+    std::string INPUT_FILE = "tests/input/test.txt";
+    std::string OUTPUT_FILE = "encoded.hmc";
 
     std::ifstream inFile(INPUT_FILE);
     std::string INPUT_TEXT = Reader::readAsString(inFile);
@@ -94,4 +100,7 @@ TEST(HuffmanEncodeEngineIntegrationTest, CanEncodeDecodeLargeText) {
     std::remove(OUTPUT_FILE.c_str());
 
     EXPECT_EQ(decodedText, INPUT_TEXT);
+
+    std::remove(INPUT_FILE.c_str());
+    std::remove(OUTPUT_FILE.c_str());
 }

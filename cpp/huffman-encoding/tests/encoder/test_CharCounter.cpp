@@ -46,7 +46,7 @@ TEST(CharCounterTest, CanHandleMixedChars) {
 }
 
 TEST(CharCounterTest, CanHandleLargeInputs) {
-    const std::string input = HmcReader::readAsString("../tests/input/test.txt");
+    const std::string input = HmcReader::readAsString("tests/input/test.txt");
 
     std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
     std::wstring wText = converter.from_bytes(input);

@@ -38,23 +38,15 @@ class Reader{
 class HmcReader : public Reader {
     public:
         static std::vector<uint8_t> readBytes(const std::string& filepath) {
-            std::ifstream inFile(filepath, std::ios::binary);
-            std::vector<uint8_t> ret;
-            if (inFile.is_open()) {
-                ret = Reader::readBytes(inFile);
-                inFile.close();
+            if (std::ifstream inFile(filepath, std::ios::binary); inFile.is_open()) {
+                return Reader::readBytes(inFile);
             }
-
-            return ret;
+            throw std::runtime_error("Could not open file " + filepath);
         }
 
         static std::string readAsString(const std::string& filepath) {
-            std::ifstream inFile(filepath, std::ios::binary);
-            std::string ret;
-            if (inFile.is_open()) {
-                ret = Reader::readAsString(inFile);
-                inFile.close();
-                return ret;
+            if (std::ifstream inFile(filepath, std::ios::binary); inFile.is_open()) {
+                return Reader::readAsString(inFile);
             }
             throw std::runtime_error("Could not open file " + filepath);
         }
