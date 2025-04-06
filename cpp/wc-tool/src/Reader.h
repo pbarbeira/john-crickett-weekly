@@ -8,7 +8,15 @@
 #include <iostream>
 #include <fstream>
 
+/**
+ * Reader class. Used to handle input.
+ */
 class Reader{
+    /**
+     * Reads an input stream's content as a string.
+     * @param stream the input stream.
+     * @return the content of the input stream.
+     */
     static std::string _readStream(std::istream& stream){
         std::ostringstream buffer;
         buffer << stream.rdbuf();
@@ -16,6 +24,12 @@ class Reader{
     }
 
     public:
+        /**
+         * Reads contents from a file as a string by calling the
+         * private method _readStream on the open file stream.
+         * @param fileName the path to the file.
+         * @return the contents of the file, as string.
+         */
         static std::string readFile(const std::string& fileName){
             std::ifstream file(fileName);
             std::string out;
@@ -26,6 +40,11 @@ class Reader{
             return out;
         }
 
+        /**
+         * Reads contents from stdin as a string by calling the
+         * private method _readStream on std::cin.
+         * @return
+         */
         static std::string readStdIn(){
             return _readStream(std::cin);
         }

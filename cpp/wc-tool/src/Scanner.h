@@ -9,35 +9,40 @@
 
 using ull = unsigned long long;
 
+/**
+ * Scans the input in order to extract the counts.
+ */
 class Scanner {
-    const Options* _options;
-    std::unordered_map<Option, ull> _counts = {
-        { Option::BYTE, 0},
-        { Option::LINE, 1},
-        { Option::WORD, 0},
-        { Option::CHAR, 0},
-    };
-
     public:
-        explicit Scanner(const Options* options):
-             _options(options) {}
-
-        std::unordered_map<Option, ull> getWcCounts(const std::wstring& input){
-            _counts[Option::CHAR] = input.length();
+        /**
+         * Receives a wide string and iterates through it. Counts
+         * the number of words and lines. Stores the length of the
+         * string as the number of characters.
+         * @param input the input string.
+         * @return the input string metadata.
+         */
+        static std::unordered_map<Option, ull> getWcCounts(const std::wstring& input){
+            std::unordered_map<Option, ull> counts = {
+                { Option::BYTE, 0},
+                { Option::LINE, 1},
+                { Option::WORD, 0},
+                { Option::CHAR, 0},
+            };
+            counts[Option::CHAR] = input.length();
 
             for (int i = 0; i < input.length(); i++) {
-                if (const wchar_t c = input[i]; isspace(c)) {
+                if (const wchar_t c = input[i]; isspace(c) || i == input.length() - 1) {
                     if (c == '\n') {
-                        _counts[Option::LINE]++;
+                        counts[Option::LINE]++;
                     }
                     if (!isspace(input[i - 1])) {
-                        _counts[Option::WORD]++;
+                        counts[Option::WORD]++;
                     }
                 }
 
 
             }
-            return _counts;
+            return counts;
         }
 };
 

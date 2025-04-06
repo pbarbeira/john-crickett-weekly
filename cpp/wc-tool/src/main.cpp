@@ -5,6 +5,15 @@
 #include "Reader.h"
 #include "Scanner.h"
 
+/**
+ * The main loop of the program. Parses options from command line
+ * arguments. Reads text from input and runs it through Scanner.
+ * Uses Options to determine the information to be shown to the
+ * user according to the command line flags.
+ * @param argc the number of command line arguments.
+ * @param argv the command line arguments.
+ * @return 0 if success, 1 otherwise.
+ */
 int main(const int argc, char *argv[]) {
     try {
         const auto options = OptionsParser::parse(argc, argv);
@@ -17,9 +26,7 @@ int main(const int argc, char *argv[]) {
         std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
         const std::wstring wideStr = converter.from_bytes(text);
 
-        auto scanner = Scanner(options.get());
-        auto counts = scanner.getWcCounts(wideStr);
-
+        auto counts = Scanner::getWcCounts(wideStr);
         counts[Option::BYTE] = text.length();
 
         const std::vector printOrder = {

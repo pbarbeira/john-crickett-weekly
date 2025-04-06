@@ -11,7 +11,7 @@ const std::string EXPECTED_SPECIAL = "This is some input data to use in basic te
 
 
 TEST(ReaderTest, CanReadFile_BASE) {
-    std::string filepath = "../test/input/reader.txt";
+    std::string filepath = "test/input/reader.txt";
 
     std::ofstream file(filepath);
     if (file.is_open()) {
@@ -25,7 +25,7 @@ TEST(ReaderTest, CanReadFile_BASE) {
 }
 
 TEST(ReaderTest, CanReadFile_MultiLine) {
-    std::string filepath = "../test/input/reader.txt";
+    std::string filepath = "test/input/reader.txt";
 
     std::ofstream file(filepath);
     if (file.is_open()) {
@@ -39,7 +39,7 @@ TEST(ReaderTest, CanReadFile_MultiLine) {
 }
 
 TEST(ReaderTest, CanReadFile_Special) {
-    std::string filepath = "../test/input/reader.txt";
+    std::string filepath = "test/input/reader.txt";
 
     std::ofstream file(filepath);
     if (file.is_open()) {

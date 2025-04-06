@@ -9,13 +9,27 @@
 #include <regex>
 #include <memory>
 
+/**
+ * Enum class containing the possible command line options, as
+ * well as an indicator if the input should be read from stdin.
+ */
 enum class Option {
     BYTE, LINE, WORD, CHAR, STDIN
 };
 
+/**
+ * Used to match .txt files.
+ */
 const std::regex pattern(R"(.+?\.txt)");
 
+/**
+ * Options class. stores command line options so the program can
+ * use them.
+ */
 struct Options {
+    /**
+     * Stores information regarding which flags were used.
+     */
     std::unordered_map<Option, bool> options = {
         { Option::BYTE, false },
         { Option::LINE, false },
@@ -23,8 +37,16 @@ struct Options {
         { Option::CHAR, false },
         { Option::STDIN, true },
     };
+    /**
+     * The name of the file, if STDIN is not to be used.
+     */
     std::string filename;
 
+    /**
+     * Default options instance. Used to ensure default program
+     * behavior when the user does not enter any option.
+     * @return the default options instance.
+     */
     static std::unique_ptr<Options> defaultInstance() {
         auto options = std::make_unique<Options>();
 
@@ -36,8 +58,20 @@ struct Options {
     }
 };
 
+/**
+ * Parses the command line arguments to fill the Options class.
+ */
 class OptionsParser {
     public:
+        /**
+         * Main method. Analyses argc to determine if any command
+         * line options were passed. If not, returns default Option.
+         * If there were command line options passed, iterates
+         * through them and fills the Options object accordingly.
+         * @param argc the number of commandl line arguments.
+         * @param argv the command line arguments.
+         * @return unique pointer to the parsed options object.
+         */
         static std::unique_ptr<Options> parse(int argc, char* argv[]) {
             if (argc == 1) {
                 return Options::defaultInstance();
