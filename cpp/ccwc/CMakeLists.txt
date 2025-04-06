@@ -19,7 +19,7 @@ add_executable(run_tests test/test_main.cpp
     test/unit_reader.cpp
     test/unit_options.cpp
     test/unit_scanner.cpp
-    test/intergration_test.cpp
+    test/integration_test.cpp
 )
 
 target_link_libraries(run_tests gtest gmock gtest_main)
