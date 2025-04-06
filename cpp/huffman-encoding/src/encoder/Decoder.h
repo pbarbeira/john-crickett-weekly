@@ -27,21 +27,23 @@ class Decoder {
          * @return the original decoded string.
          */
         static std::wstring _decodeBody(const std::string& bitstream, HuffmanNode* node) {
-        std::wstringstream ss;
-        HuffmanNode* tmpNode = node;;
-        for (char c : bitstream) {
-            if (c == '0') {
-                tmpNode = tmpNode->left.get();
-            }else if (c == '1') {
-                tmpNode = tmpNode->right.get();
+            std::wstringstream ss;
+            HuffmanNode* tmpNode = node;;
+            uint8_t padding = bitstream[0];
+            for (int i = 2; i < bitstream.size() - padding; i++) {
+                const wchar_t c = bitstream[i];
+                if (c == '0') {
+                    tmpNode = tmpNode->left.get();
+                }else if (c == '1') {
+                    tmpNode = tmpNode->right.get();
+                }
+                if (tmpNode->isLeaf()) {
+                    ss << tmpNode->letter;
+                    tmpNode = node;
+                }
             }
-            if (tmpNode->isLeaf()) {
-                ss << tmpNode->letter;
-                tmpNode = node;
-            }
+            return ss.str();
         }
-        return ss.str();
-    }
 
     public:
         /**

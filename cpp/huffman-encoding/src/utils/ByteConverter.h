@@ -52,14 +52,16 @@ class ByteConverter{
                 }
             }
 
+            uint8_t padding = 0;
             if (bitCount % 8 != 0) {
                 while (bitCount % 8 != 0) {
                     byte <<= 1;
                     bitCount++;
+                    padding++;
                 }
                 bytes.push_back(byte);
             }
-
+            bytes.insert(bytes.begin(), 1, padding);
             return bytes;
         };
 
@@ -72,14 +74,14 @@ class ByteConverter{
          */
         static std::string fromBytes(const std::vector<uint8_t>& bytes) {
             std::stringstream ss;
-
-            for (int i = 0; i < bytes.size(); i++) {
+            ss << bytes[0];
+            for (int i = 1; i < bytes.size(); i++) {
                 for (uint8_t byte = 0x80; byte > 0; byte >>= 1) {
                     _setByte(ss, bytes[i], byte);
                 }
             }
 
-            return ss.str().substr(1);
+            return ss.str();
         }
 
 };

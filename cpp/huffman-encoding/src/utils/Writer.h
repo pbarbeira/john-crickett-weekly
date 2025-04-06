@@ -59,9 +59,7 @@ class HmcWriter : public Writer {
          * @param filepath the file to be written.
          * @param body the .hmc body data.
          */
-        static void writeBody(const std::string& filepath, const std::string& body) {
-        const std::vector<uint8_t> bytes = ByteConverter::toBytes(body);
-
+        static void writeBody(const std::string& filepath, const std::vector<uint8_t> & bytes) {
         if (std::ofstream out(filepath, std::ios::app | std::ios::binary); out.is_open()) {
             write(out, bytes);
             out.close();

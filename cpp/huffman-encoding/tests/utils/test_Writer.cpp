@@ -24,12 +24,13 @@ TEST(FileWriterTest, WritesHeader) {
 }
 
 TEST(FileWriterTest, WritesBody) {
-    std::vector<uint8_t> expected = { 0xac, 0xde, 0x7f, 0xde};
+    std::vector<uint8_t> expected = { 0x00, 0xac, 0xde, 0x7f, 0xde};
 
     std::string body = "0101100110111100111111111011110";
     std::string filepath = "./testWriter";
+    const auto bodyBytes = ByteConverter::toBytes(body);
 
-    HmcWriter::writeBody(filepath, body);
+    HmcWriter::writeBody(filepath, bodyBytes);
 
     auto bytes = HmcReader::readBytes(filepath);
     std::remove(filepath.c_str());
@@ -46,6 +47,7 @@ TEST(FileWriterTest, WritesEncodedFile) {
     for (int i = 0; i < header.size(); i++) {
         expected.push_back(header[i]);
     }
+    expected.push_back(0x00);
     expected.push_back(0xac);
     expected.push_back(0xde);
     expected.push_back(0x7f);
@@ -55,7 +57,8 @@ TEST(FileWriterTest, WritesEncodedFile) {
     std::string filepath = "./testWriter";
 
     HmcWriter::writeString(filepath, header);
-    HmcWriter::writeBody(filepath, body);
+    const auto bodyBytes = ByteConverter::toBytes(body);
+    HmcWriter::writeBody(filepath, bodyBytes);
 
     auto bytes = HmcReader::readBytes(filepath);
     std::remove(filepath.c_str());

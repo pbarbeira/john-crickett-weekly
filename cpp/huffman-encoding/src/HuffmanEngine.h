@@ -62,7 +62,8 @@ class HuffmanEncodeEngine final : public HuffmanEngine{
 
             const auto encoder = Encoder(root.get());
             const auto body = encoder.encode(wText);
-            HmcWriter::writeBody(outputFile, body);
+            const std::vector<uint8_t> bytes = ByteConverter::toBytes(body);
+            HmcWriter::writeBody(outputFile, bytes);
 
             std::cout << std::format("File saved at {}", outputFile) << std::endl;
         };
