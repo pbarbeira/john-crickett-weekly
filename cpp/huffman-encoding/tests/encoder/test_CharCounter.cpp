@@ -2,24 +2,27 @@
 // Created by pbarbeira on 23-03-2025.
 //
 
+#include <codecvt>
 #include <gtest/gtest.h>
 #include "../../src/encoder/CharCounter.h"
 #include <fstream>
 
+#include "../../src/utils/Reader.h"
+
 TEST(CharCounterTest, CanHandleEmptyString) {
-    std::string testStr;
+    std::wstring testStr;
     auto counts = CharCounter::countChars(testStr);
     EXPECT_EQ(counts['a'], 0);
 }
 
 TEST(CharCounterTest, CanCountSingleChar) {
-    std::string testStr = "aaaaaa";
+    std::wstring testStr = L"aaaaaa";
     auto counts = CharCounter::countChars(testStr);
     EXPECT_EQ(counts['a'], 6);
 }
 
 TEST(CharCounterTest, CanCountMultipleChar) {
-    std::string testStr = "aaaaaabbbcccc";
+    std::wstring testStr = L"aaaaaabbbcccc";
     auto counts = CharCounter::countChars(testStr);
     EXPECT_EQ(counts['a'], 6);
     EXPECT_EQ(counts['b'], 3);
@@ -27,14 +30,14 @@ TEST(CharCounterTest, CanCountMultipleChar) {
 }
 
 TEST(CharCounterTest, CanDistinguishUpperAndLower) {
-    std::string testStr = "aaaaaaAAAAA";
+    std::wstring testStr = L"aaaaaaAAAAA";
     auto counts = CharCounter::countChars(testStr);
     EXPECT_EQ(counts['a'], 6);
     EXPECT_EQ(counts['A'], 5);
 }
 
 TEST(CharCounterTest, CanHandleMixedChars) {
-    std::string testStr = "aAbaAacbcAacbbAacAa";
+    std::wstring testStr = L"aAbaAacbcAacbbAacAa";
     auto counts = CharCounter::countChars(testStr);
     EXPECT_EQ(counts['a'], 6);
     EXPECT_EQ(counts['A'], 5);
@@ -43,14 +46,12 @@ TEST(CharCounterTest, CanHandleMixedChars) {
 }
 
 TEST(CharCounterTest, CanHandleLargeInputs) {
-    std::ifstream file("/home/pbarbeira/dev/code/john-crickett-weekly/cpp/huffman-encoding/test.txt");
-    std::string line;
-    std::string testStr;
-    while (std::getline(file, line)) {
-        testStr.append(line);
-    }
+    const std::string input = HmcReader::readAsString("../tests/input/test.txt");
 
-    auto counts = CharCounter::countChars(testStr);
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+    std::wstring wText = converter.from_bytes(input);
+
+    auto counts = CharCounter::countChars(wText);
     EXPECT_EQ(counts['X'], 333);
     EXPECT_EQ(counts['t'], 223000);
 }

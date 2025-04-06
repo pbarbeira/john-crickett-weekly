@@ -28,7 +28,7 @@ struct HuffmanNode{
     int id;
 
     //The letter of the node, if it is a Leaf
-    char letter{};
+    wchar_t letter{};
     //The frequency of the node, if it is a Leaf
     int freq{};
 
@@ -96,7 +96,7 @@ class HuffmanTree{
      * @param frequencies the character frequency table.
      * @return the list of build HuffmanNodes.
      */
-    static std::vector<std::unique_ptr<HuffmanNode>> _buildNodes(const std::unordered_map<char, ull>& frequencies){
+    static std::vector<std::unique_ptr<HuffmanNode>> _buildNodes(const std::unordered_map<wchar_t, ull>& frequencies){
         std::vector<std::unique_ptr<HuffmanNode>> nodes;
         std::ranges::for_each(frequencies, [&](const auto& pair){
             auto node = std::make_unique<HuffmanNode>();
@@ -184,7 +184,7 @@ class HuffmanTree{
      * @param frequencies the character frequency table.
      * @return unique pointer to the built HuffmanTree's root.
      */
-    static std::unique_ptr<HuffmanNode> buildTree(const std::unordered_map<char, ull>& frequencies){
+    static std::unique_ptr<HuffmanNode> buildTree(const std::unordered_map<wchar_t, ull>& frequencies){
             auto nodes = _buildNodes(frequencies);
             std::ranges::make_heap(nodes, _heapCmp);
             while (nodes.size() != 1) {
@@ -265,8 +265,8 @@ class HuffmanTree{
      * @param node the root of the tree.
      * @return the file header according to the .hmc specification.
      */
-    static std::string encodeHeader(HuffmanNode* node) {
-            std::string out = "";
+    static std::wstring encodeHeader(HuffmanNode* node) {
+            std::wstring out = L"";
             std::queue<HuffmanNode*> queue;
             queue.push(node);
             while (!queue.empty()) {
@@ -274,31 +274,31 @@ class HuffmanTree{
                 queue.pop();
 
                 if (tmpNode->isLeaf()) {
-                    std::string letter(1, tmpNode->letter);
-                    if (letter == ",") {
-                        letter = "\\c";
+                    std::wstring letter(1, tmpNode->letter);
+                    if (letter == L",") {
+                        letter = L"\\c";
                     }
-                    if (letter == "\n") {
-                        letter = "\\n";
+                    if (letter == L"\n") {
+                        letter = L"\\n";
                     }
-                    if (letter == " ") {
-                        letter = "\\s";
+                    if (letter == L" ") {
+                        letter = L"\\s";
                     }
-                    if (letter == "\t") {
-                        letter = "\\t";
+                    if (letter == L"\t") {
+                        letter = L"\\t";
                     }
-                    out += std::format("{},{}|", tmpNode->id, letter);
+                    out += std::format(L"{},{}|", tmpNode->id, letter);
                 }else {
                     auto left = tmpNode->left.get();
                     auto right = tmpNode->right.get();
 
-                    out += std::format("{},{},{}|", tmpNode->id, left->id, right->id);
+                    out += std::format(L"{},{},{}|", tmpNode->id, left->id, right->id);
 
                     queue.push(left);
                     queue.push(right);
                 }
             }
-            out += "=";
+            out += L"=";
             return out;
         }
 

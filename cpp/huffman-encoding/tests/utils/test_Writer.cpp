@@ -8,13 +8,13 @@
 #include "../../src/utils/Writer.h"
 
 TEST(FileWriterTest, WritesHeader) {
-    std::string header = "15,6,14|6,e|14,12,13|12,1,7|13,4,11|1,u|7,d|4,l|11,8,10|8,c|10,9,3|9,2,5|3,m|2,z|5,k|=";
+    std::wstring header = L"15,6,14|6,e|14,12,13|12,1,7|13,4,11|1,u|7,d|4,l|11,8,10|8,c|10,9,3|9,2,5|3,m|2,z|5,k|=";
     std::string filepath = "./testWriter.txt";
 
     HmcWriter::writeHeader(filepath, header);
 
-    std::ifstream file(filepath);
-    std::string line;
+    std::wifstream file(filepath);
+    std::wstring line;
 
     std::getline(file, line);
     file.close();
@@ -41,7 +41,7 @@ TEST(FileWriterTest, WritesBody) {
 }
 
 TEST(FileWriterTest, WritesEncodedFile) {
-    std::string header = "15,6,14|6,e|14,12,13|12,1,7|13,4,11|1,u|7,d|4,l|11,8,10|8,c|10,9,3|9,2,5|3,m|2,z|5,k|=";
+    std::wstring header = L"15,6,14|6,e|14,12,13|12,1,7|13,4,11|1,u|7,d|4,l|11,8,10|8,c|10,9,3|9,2,5|3,m|2,z|5,k|=";
     std::vector<uint8_t> expected;
     for (int i = 0; i < header.size(); i++) {
         expected.push_back(header[i]);

@@ -7,7 +7,7 @@
 #include "../../src/utils/Reader.h"
 
 TEST(HuffmanEncodeEngineIntegrationTest, CanEncodeAndDecodeAsciiFile) {
-    std::string INPUT_FILE = "../tests/testAscii.txt";
+    std::string INPUT_FILE = "../tests/input/testAscii.txt";
     std::string OUTPUT_FILE = "./encoded.hmc";
 
     std::ifstream inFile(INPUT_FILE);
@@ -37,7 +37,7 @@ TEST(HuffmanEncodeEngineIntegrationTest, CanEncodeAndDecodeAsciiFile) {
 }
 
 TEST(HuffmanEncodeEngineIntegrationTest, CanEncodeDecodeFewParagraphs) {
-    std::string INPUT_FILE = "../tests/testLorem.txt";
+    std::string INPUT_FILE = "../tests/input/testLorem.txt";
     std::string OUTPUT_FILE = "./encoded.hmc";
 
     std::ifstream inFile(INPUT_FILE);
@@ -67,7 +67,7 @@ TEST(HuffmanEncodeEngineIntegrationTest, CanEncodeDecodeFewParagraphs) {
 }
 
 TEST(HuffmanEncodeEngineIntegrationTest, CanEncodeDecodeLargeText) {
-    std::string INPUT_FILE = "../tests/test.txt";
+    std::string INPUT_FILE = "../tests/input/test.txt";
     std::string OUTPUT_FILE = "./encoded.hmc";
 
     std::ifstream inFile(INPUT_FILE);

@@ -6,7 +6,7 @@
 #include "../../src/encoder/Encoder.h"
 
 std::unique_ptr<HuffmanNode> _buildTestTree() {
-    const std::unordered_map<char, unsigned long long> map = {
+    const std::unordered_map<wchar_t, unsigned long long> map = {
         { 'c', 32},
         { 'd', 42},
         { 'e', 120},
@@ -41,7 +41,7 @@ TEST(EncoderTest, CanBuildMap) {
 }
 
 TEST(EncoderTest, CanEncodeText) {
-    std::string TO_ENCODE = "edulzmkc";
+    const std::wstring TO_ENCODE = L"edulzmkc";
     std::string EXPECTED = "0101100110111100111111111011110";
 
     const auto root = _buildTestTree();

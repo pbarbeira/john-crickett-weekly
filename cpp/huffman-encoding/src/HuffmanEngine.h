@@ -5,6 +5,7 @@
 #ifndef HUFFMANENGINE_H
 #define HUFFMANENGINE_H
 
+#include <codecvt>
 #include <string>
 
 #include "encoder/CharCounter.h"
@@ -37,22 +38,30 @@ class HuffmanEngine{
  */
 class HuffmanEncodeEngine final : public HuffmanEngine{
     public:
-    /**
-     * Takes an input file and compresses it into an ouput file using
-     * HuffmanEnconding.
-     * @param inputFile the path to the input file.
-     * @param outputFile the path to the output file.
-     */
-    void run(const std::string& inputFile, const std::string& outputFile) override{
+        /**
+         * Takes an input file and compresses it into an ouput file using
+         * HuffmanEnconding.
+         * @param inputFile the path to the input file.
+         * @param outputFile the path to the output file.
+         */
+        void run(const std::string& inputFile, const std::string& outputFile) override{
             const std::string text = HmcReader::readAsString(inputFile);
-            const auto frequencyMap = CharCounter::countChars(text);
+
+            if (text.empty()) {
+                throw std::runtime_error("Input file is empty");
+            }
+
+            std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+            const std::wstring wText = converter.from_bytes(text);
+
+            const auto frequencyMap = CharCounter::countChars(wText);
             const auto root = HuffmanTree::buildTree(frequencyMap);
 
             const auto header = HuffmanTree::encodeHeader(root.get());
             HmcWriter::writeHeader(outputFile, header);
 
             const auto encoder = Encoder(root.get());
-            const auto body = encoder.encode(text);
+            const auto body = encoder.encode(wText);
             HmcWriter::writeBody(outputFile, body);
 
             std::cout << std::format("File saved at {}", outputFile) << std::endl;
@@ -64,13 +73,13 @@ class HuffmanEncodeEngine final : public HuffmanEngine{
  */
 class HuffmanDecodeEngine final : public HuffmanEngine{
     public:
-    /**
-     * Takes an input file compressed with Huffman Enconding and decompresses
-     * it into an outputFile.
-     * @param inputFile the path to the input file.
-     * @param outputFile the path to the output file.
-     */
-    void run(const std::string& inputFile, const std::string& outputFile) override{
+        /**
+         * Takes an input file compressed with Huffman Enconding and decompresses
+         * it into an outputFile.
+         * @param inputFile the path to the input file.
+         * @param outputFile the path to the output file.
+         */
+        void run(const std::string& inputFile, const std::string& outputFile) override{
             const auto bytes = HmcReader::readBytes(inputFile);
             const auto text = ByteConverter::fromBytes(bytes);
 

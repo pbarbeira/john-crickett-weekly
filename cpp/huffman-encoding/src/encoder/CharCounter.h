@@ -22,9 +22,9 @@ class CharCounter{
      * @param str the input string.
      * @return a map containing the character frequencies.
      */
-    static std::unordered_map<char, ull> countChars(const std::string& str){
-            std::unordered_map<char, ull> charCounts;
-            std::ranges::for_each(str, [&charCounts](const char& c){
+    static std::unordered_map<wchar_t, ull> countChars(const std::wstring& str){
+            std::unordered_map<wchar_t, ull> charCounts;
+            std::ranges::for_each(str, [&charCounts](const wchar_t& c){
                 if(!charCounts.contains(c)){
                     charCounts[c] = 0;
                 }

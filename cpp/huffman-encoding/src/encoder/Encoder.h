@@ -16,7 +16,7 @@
  */
 class Encoder {
     //Map with the characters and their prefix codes.
-    std::unordered_map<char, std::string> _prefixTable;
+    std::unordered_map<wchar_t, std::string> _prefixTable;
 
     /**
      * Helper function to DFS travel the HuffmanTree and build the prefix table.
@@ -46,7 +46,7 @@ class Encoder {
          * Returns the prefix table
          * @return the prefix table.
          */
-        std::unordered_map<char, std::string> getPrefixTable() const {
+        std::unordered_map<wchar_t, std::string> getPrefixTable() const {
             return _prefixTable;
         }
 
@@ -57,11 +57,11 @@ class Encoder {
          * @param input the text to be encoded.
          * @return the encoded text.
          */
-        std::string encode(const std::string &input) const {
+        std::string encode(const std::wstring &input) const {
             std::stringstream ss;
 
             for (int i = 0; i < input.size(); i++) {
-                if (char c = input[i]; _prefixTable.contains(c)) {
+                if (wchar_t c = input[i]; _prefixTable.contains(c)) {
                     ss << _prefixTable.at(c);
                     continue;
                 }

@@ -20,7 +20,7 @@ class Writer {
      * @param out the output stream.
      * @param str the string to be written.
      */
-    static void write(std::ostream& out, const std::string& str) {
+    static void write(std::wostream& out, const std::wstring& str) {
         out << str;
     }
 
@@ -33,8 +33,8 @@ class Writer {
         out.write(reinterpret_cast<const char*>(bytes.data()), bytes.size());
     }
 
-    static void writeString(const std::string& filepath, const std::string& str) {
-        if (std::ofstream outFile(filepath); outFile.is_open()) {
+    static void writeString(const std::string& filepath, const std::wstring& str) {
+        if (std::wofstream outFile(filepath); outFile.is_open()) {
             outFile << str;
             outFile.close();
             return;
@@ -48,27 +48,26 @@ class Writer {
  */
 class HmcWriter : public Writer {
     public:
-    /**
-     * Writes the .hmc header data, which contains the information required
-     * to reconstruct the frequency tree and decode the .hmc file.
-     * @param filepath the file to be written.
-     * @param header the .hmc header data.
-     */
-    static void writeHeader(const std::string& filepath, const std::string& header) {
-            if (std::ofstream out(filepath); out.is_open()) {
+        /**
+         * Writes the .hmc header data, which contains the information required
+         * to reconstruct the frequency tree and decode the .hmc file.
+         * @param filepath the file to be written.
+         * @param header the .hmc header data.
+         */
+        static void writeHeader(const std::string& filepath, const std::wstring& header) {
+            if (std::wofstream out(filepath); out.is_open()) {
                 write(out, header);
-                out.close();
                 return;
             }
             throw std::runtime_error("Could not open file");
         }
 
-    /**
-     * Writes the .hmc body data as a sequence of raw bytes.
-     * @param filepath the file to be written.
-     * @param body the .hmc body data.
-     */
-    static void writeBody(const std::string& filepath, const std::string& body) {
+        /**
+         * Writes the .hmc body data as a sequence of raw bytes.
+         * @param filepath the file to be written.
+         * @param body the .hmc body data.
+         */
+        static void writeBody(const std::string& filepath, const std::string& body) {
         const std::vector<uint8_t> bytes = ByteConverter::toBytes(body);
 
         if (std::ofstream out(filepath, std::ios::app | std::ios::binary); out.is_open()) {

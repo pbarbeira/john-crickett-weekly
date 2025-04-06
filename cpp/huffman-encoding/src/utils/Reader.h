@@ -26,12 +26,8 @@ class Reader{
         }
 
         static std::string readAsString(std::istream& in) {
-            std::stringstream ss;
-            std::string buffer;
-            while (std::getline(in, buffer)) {
-                ss << buffer << '\n';
-                buffer.clear();
-            }
+            std::ostringstream ss;
+            ss << in.rdbuf();
             return ss.str();
         }
 };
@@ -53,13 +49,14 @@ class HmcReader : public Reader {
         }
 
         static std::string readAsString(const std::string& filepath) {
-            std::ifstream inFile(filepath);
+            std::ifstream inFile(filepath, std::ios::binary);
             std::string ret;
             if (inFile.is_open()) {
                 ret = Reader::readAsString(inFile);
                 inFile.close();
+                return ret;
             }
-            return ret;
+            throw std::runtime_error("Could not open file " + filepath);
         }
 };
 
