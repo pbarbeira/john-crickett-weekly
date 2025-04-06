@@ -7,7 +7,12 @@
 
 #include "HuffmanTree.h"
 #include <algorithm>
+#include <codecvt>
 
+#include "../utils/ByteConverter.h"
+#include "../utils/Reader.h"
+
+struct DecodeData;
 /**
  * Encapsulates the core Huffman Decoding logic. Creates the Huffman Tree from
  * the header and uses it to decode the body.
@@ -47,15 +52,11 @@ class Decoder {
          * @param data the data to be decoded.
          * @return the decoded data.
          */
-        static std::wstring decode(const std::string& data) {
-            auto stopItr = std::ranges::find(data, '=');
-            const std::string treeData(data.begin(), stopItr);
+        static std::wstring decode(DecodeData* data) {
+            const auto root = HuffmanTree::buildTree(data->header);
 
-           const auto root = HuffmanTree::buildTree(treeData);
-
-            //skip the '=1'
-            const std::string bodyData(++++stopItr, data.end());
-            return _decodeBody(bodyData, root.get());
+            const auto body = ByteConverter::fromBytes(data->body);
+            return _decodeBody(body, root.get());
         }
 
 };

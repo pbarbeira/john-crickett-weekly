@@ -66,7 +66,7 @@ struct NodeData {
     //The ID of the node's right Node
     int rightId;
     //The Node's value.
-    char value;
+    wchar_t value;
 
     /**
      * Default NodeData constructor.
@@ -113,23 +113,23 @@ class HuffmanTree{
      * @param data the .hmc header data.
      * @return the tree's metadata.
      */
-    static std::unordered_map<int, std::unique_ptr<NodeData>> _buildNodes(const std::string& data){
+    static std::unordered_map<int, std::unique_ptr<NodeData>> _buildNodes(const std::wstring& data){
         std::unordered_map<int, std::unique_ptr<NodeData>> nodes;
         auto nodeTokens = StringUtils::split(data, '|');
         for (int i = 0; i < nodeTokens.size(); i++) {
             auto token = nodeTokens[i];
-            if (token == "=") break;
+            if (token == L"=") break;
             auto valueTokens = StringUtils::split(token, ',');
             int id = std::stoi(valueTokens[0]);
             auto nodeData = std::make_unique<NodeData>(id);
             if (valueTokens.size() == 2) {
-                std::string value = valueTokens[1];
-                char ch = value[0];
-                if (value == "\\c") ch = ',';
-                if (value == "\\n") ch = '\n';
-                if (value == "\\s") ch = ' ';
-                if (value == "\\t") ch = '\t';
-                if (value == "\\r") ch = '\r';
+                std::wstring value = valueTokens[1];
+                wchar_t ch = value[0];
+                if (value == L"\\c") ch = L',';
+                if (value == L"\\n") ch = L'\n';
+                if (value == L"\\s") ch = L' ';
+                if (value == L"\\t") ch = L'\t';
+                if (value == L"\\r") ch = L'\r';
 
                 nodeData->value = ch;
             }else {
@@ -169,10 +169,10 @@ class HuffmanTree{
      * @param str the .hmc header data.
      * @return the root node's id.
      */
-    static int _getRootId(const std::string& str) {
+    static int _getRootId(const std::wstring& str) {
         for (int i = 0; i < str.size(); i++) {
             if (str[i] == ',') {
-                std::string idStr = str.substr(0, i);
+                std::wstring idStr = str.substr(0, i);
                 return std::stoi(idStr);
             }
         }
@@ -204,7 +204,7 @@ class HuffmanTree{
      * @param str the .hmc header information.
      * @return unique pointer to the built HuffmanTree's root.
      */
-    static std::unique_ptr<HuffmanNode> buildTree(const std::string& str){
+    static std::unique_ptr<HuffmanNode> buildTree(const std::wstring& str){
         const auto nodes = std::move(_buildNodes(str));
 
         const auto rootId = _getRootId(str);

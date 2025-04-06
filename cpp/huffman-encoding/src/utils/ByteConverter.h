@@ -63,32 +63,23 @@ class ByteConverter{
             return bytes;
         };
 
-    /**
-     * Converts a list of raw bytes into a string representation of their
-     * bit stream. Encapsulates some case-specific logic that's only relevant
-     * to our use case.
-     * @param bytes the list of raw bytes.
-     * @return a string representation of the bit stream.
-     */
-    static std::string fromBytes(const std::vector<uint8_t>& bytes) {
+        /**
+         * Converts a list of raw bytes into a string representation of their
+         * bit stream. Encapsulates some case-specific logic that's only relevant
+         * to our use case.
+         * @param bytes the list of raw bytes.
+         * @return a string representation of the bit stream.
+         */
+        static std::string fromBytes(const std::vector<uint8_t>& bytes) {
             std::stringstream ss;
-            int i = 0;
-            for (; i < bytes.size(); i++) {
-                ss << bytes[i];
-                if (bytes[i] == '=') {
-                    //we ignore first bit of the bit string
-                    i++;
-                    break;
-                }
-            }
 
-            for (; i < bytes.size(); i++) {
+            for (int i = 0; i < bytes.size(); i++) {
                 for (uint8_t byte = 0x80; byte > 0; byte >>= 1) {
                     _setByte(ss, bytes[i], byte);
                 }
             }
 
-            return ss.str();
+            return ss.str().substr(1);
         }
 
 };

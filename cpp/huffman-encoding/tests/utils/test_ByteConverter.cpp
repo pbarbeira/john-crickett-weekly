@@ -15,8 +15,8 @@ TEST(ByteConverterTest, ConvertToBytes) {
 }
 
 TEST(ByteConverterTest, ConvertFromBytes) {
-    const std::vector<uint8_t> bytes = { '1', ',', 'a', '|','=', 0xac, 0xde, 0x7f, 0xde};
-    const std::string expected = "1,a|=10101100110111100111111111011110";
+    const std::vector<uint8_t> bytes = { 0xac, 0xde, 0x7f, 0xde};
+    const std::string expected = "0101100110111100111111111011110";
 
     const auto result = ByteConverter::fromBytes(bytes);
 
@@ -24,8 +24,8 @@ TEST(ByteConverterTest, ConvertFromBytes) {
 }
 
 TEST(ByteConverterTest, ConvertFromBytessStartZeroEndZero) {
-    const std::vector<uint8_t> bytes = { '1', ',', 'a', '|','=', 0xac, 0xde, 0x7f, 0xde};
-    const std::string expected = "1,a|=10101100110111100111111111011110";
+    const std::vector<uint8_t> bytes = { 0xac, 0xde, 0x7f, 0xde};
+    const std::string expected = "0101100110111100111111111011110";
 
     const auto result = ByteConverter::fromBytes(bytes);
 
@@ -33,8 +33,8 @@ TEST(ByteConverterTest, ConvertFromBytessStartZeroEndZero) {
 }
 
 TEST(ByteConverterTest, ConvertFromBytesStartZeroEndOne) {
-    const std::vector<uint8_t> bytes = { '1', ',', 'a', '|','=', 0xac, 0xde, 0x7f, 0xdf};
-    const std::string expected = "1,a|=10101100110111100111111111011111";
+    const std::vector<uint8_t> bytes = { 0xac, 0xde, 0x7f, 0xdf};
+    const std::string expected = "0101100110111100111111111011111";
 
     const auto result = ByteConverter::fromBytes(bytes);
 
@@ -42,8 +42,8 @@ TEST(ByteConverterTest, ConvertFromBytesStartZeroEndOne) {
 }
 
 TEST(ByteConverterTest, ConvertFromBytesStartOneEndZero) {
-    const std::vector<uint8_t> bytes = { '1', ',', 'a', '|','=', 0xec, 0xde, 0x7f, 0xde};
-    const std::string expected = "1,a|=11101100110111100111111111011110";
+    const std::vector<uint8_t> bytes = { 0xec, 0xde, 0x7f, 0xde};
+    const std::string expected = "1101100110111100111111111011110";
 
     const auto result = ByteConverter::fromBytes(bytes);
 
@@ -51,8 +51,8 @@ TEST(ByteConverterTest, ConvertFromBytesStartOneEndZero) {
 }
 
 TEST(ByteConverterTest, ConvertFromBytesStartOneEndOne) {
-    const std::vector<uint8_t> bytes = { '1', ',', 'a', '|','=', 0xec, 0xde, 0x7f, 0xdf};
-    const std::string expected = "1,a|=11101100110111100111111111011111";
+    const std::vector<uint8_t> bytes = { 0xec, 0xde, 0x7f, 0xdf};
+    const std::string expected = "1101100110111100111111111011111";
 
     const auto result = ByteConverter::fromBytes(bytes);
 

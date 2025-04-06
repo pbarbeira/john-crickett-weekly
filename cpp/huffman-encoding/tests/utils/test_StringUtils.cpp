@@ -6,8 +6,8 @@
 #include "../../src/utils//StringUtils.h"
 
 TEST(StringUtilsTest, TokenizeComma) {
-    const std::vector<std::string> EXPECTED = { "12", "13"};
-    const std::string input = "12,13";
+    const std::vector<std::wstring> EXPECTED = { L"12", L"13"};
+    const std::wstring input = L"12,13";
 
     const auto result = StringUtils::split(input, ',');
 
@@ -15,8 +15,8 @@ TEST(StringUtilsTest, TokenizeComma) {
 }
 
 TEST(StrinGutilsTest, TokenizeBar) {
-    const std::vector<std::string> EXPECTED = { "12,13,14", "13,a", "14,b"};
-    const std::string input = "12,13,14|13,a|14,b|";
+    const std::vector<std::wstring> EXPECTED = { L"12,13,14", L"13,a", L"14,b"};
+    const std::wstring input = L"12,13,14|13,a|14,b|";
 
     const auto result = StringUtils::split(input, '|');
 

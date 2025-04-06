@@ -80,14 +80,20 @@ class HuffmanDecodeEngine final : public HuffmanEngine{
          * @param outputFile the path to the output file.
          */
         void run(const std::string& inputFile, const std::string& outputFile) override{
-            const auto bytes = HmcReader::readBytes(inputFile);
-            const auto text = ByteConverter::fromBytes(bytes);
+            const auto input = HmcReader::readAsString(inputFile);
 
-            if (text.empty()) {
+            if (input.empty()) {
                 throw std::runtime_error("Input file is empty");
             }
 
-            auto decoded = Decoder::decode(text);
+            auto stopItr = std::ranges::find(input, '=');
+            const std::string headerData(input.begin(), stopItr);
+            std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+            const std::wstring header = converter.from_bytes(headerData);
+
+            const std::vector<uint8_t> body(++stopItr, input.end());
+
+            auto decoded = Decoder::decode(new DecodeData(header, body));
             Writer::writeString(outputFile, decoded);
 
             std::cout << std::format("File saved at {}", outputFile) << std::endl;

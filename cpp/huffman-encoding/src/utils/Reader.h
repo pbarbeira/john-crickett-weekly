@@ -32,6 +32,11 @@ class Reader{
         }
 };
 
+struct DecodeData {
+    std::wstring header;
+    std::vector<uint8_t> body;
+};
+
 /**
  * Specialized class to write .hmc files
  */
@@ -47,6 +52,32 @@ class HmcReader : public Reader {
         static std::string readAsString(const std::string& filepath) {
             if (std::ifstream inFile(filepath, std::ios::binary); inFile.is_open()) {
                 return Reader::readAsString(inFile);
+            }
+            throw std::runtime_error("Could not open file " + filepath);
+        }
+
+        static std::unique_ptr<DecodeData> readHmc(const std::string& filepath) {
+            if (std::ifstream inFile(filepath, std::ios::binary); inFile.is_open()) {
+                std::wstring widePart;
+                wchar_t wc;
+
+                while (inFile.read(reinterpret_cast<char*>(&wc), sizeof(wchar_t))) {
+                    if (wc == L'=') break;
+                    widePart.push_back(wc);
+                }
+                std::streampos posAfterWide = inFile.tellg();
+                inFile.seekg(posAfterWide);
+                std::vector<uint8_t> bytePart;
+
+                inFile.seekg(0, std::ios::end);
+                std::streamsize totalSize = inFile.tellg();
+                std::streamsize remaining = totalSize - posAfterWide;
+
+                inFile.seekg(posAfterWide);
+                bytePart.resize(remaining);
+                inFile.read(reinterpret_cast<char*>(bytePart.data()), remaining);
+
+                return std::make_unique<DecodeData>(widePart,bytePart);
             }
             throw std::runtime_error("Could not open file " + filepath);
         }

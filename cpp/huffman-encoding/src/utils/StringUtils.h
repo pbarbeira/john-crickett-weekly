@@ -21,8 +21,8 @@ class StringUtils {
      * @param delim the delimiter character.
      * @return the list of split tokens
      */
-    static std::vector<std::string> split(const std::string& s, const char delim) {
-            std::vector<std::string> out;
+    static std::vector<std::wstring> split(const std::wstring& s, const wchar_t delim) {
+            std::vector<std::wstring> out;
             int last = 0;
             for (int i = 0; i < s.length(); i++) {
                 if (s[i] == delim) {

@@ -11,7 +11,7 @@ TEST(FileWriterTest, WritesHeader) {
     std::wstring header = L"15,6,14|6,e|14,12,13|12,1,7|13,4,11|1,u|7,d|4,l|11,8,10|8,c|10,9,3|9,2,5|3,m|2,z|5,k|=";
     std::string filepath = "./testWriter.txt";
 
-    HmcWriter::writeHeader(filepath, header);
+    HmcWriter::writeString(filepath, header);
 
     std::wifstream file(filepath);
     std::wstring line;
@@ -54,7 +54,7 @@ TEST(FileWriterTest, WritesEncodedFile) {
     std::string body = "0101100110111100111111111011110";
     std::string filepath = "./testWriter";
 
-    HmcWriter::writeHeader(filepath, header);
+    HmcWriter::writeString(filepath, header);
     HmcWriter::writeBody(filepath, body);
 
     auto bytes = HmcReader::readBytes(filepath);
