@@ -129,6 +129,7 @@ class HuffmanTree{
                 if (value == "\\n") ch = '\n';
                 if (value == "\\s") ch = ' ';
                 if (value == "\\t") ch = '\t';
+                if (value == "\\r") ch = '\r';
 
                 nodeData->value = ch;
             }else {
@@ -286,6 +287,9 @@ class HuffmanTree{
                     }
                     if (letter == L"\t") {
                         letter = L"\\t";
+                    }
+                    if (letter == L"\r") {
+                        letter = L"\\r";
                     }
                     out += std::format(L"{},{}|", tmpNode->id, letter);
                 }else {

@@ -21,7 +21,8 @@ class Writer {
      * @param str the string to be written.
      */
     static void write(std::wostream& out, const std::wstring& str) {
-        out << str;
+        out.imbue(std::locale("en_US.UTF-8"));
+        out.write(str.c_str(), str.length());
     }
 
     /**
@@ -33,9 +34,14 @@ class Writer {
         out.write(reinterpret_cast<const char*>(bytes.data()), bytes.size());
     }
 
+    /**
+     * Writes a wide string it a given file.
+     * @param filepath the file to be written.
+     * @param header the .hmc header data.
+     */
     static void writeString(const std::string& filepath, const std::wstring& str) {
         if (std::wofstream outFile(filepath); outFile.is_open()) {
-            outFile << str;
+            write(outFile, str);
             outFile.close();
             return;
         }
@@ -48,20 +54,6 @@ class Writer {
  */
 class HmcWriter : public Writer {
     public:
-        /**
-         * Writes the .hmc header data, which contains the information required
-         * to reconstruct the frequency tree and decode the .hmc file.
-         * @param filepath the file to be written.
-         * @param header the .hmc header data.
-         */
-        static void writeHeader(const std::string& filepath, const std::wstring& header) {
-            if (std::wofstream out(filepath); out.is_open()) {
-                write(out, header);
-                return;
-            }
-            throw std::runtime_error("Could not open file");
-        }
-
         /**
          * Writes the .hmc body data as a sequence of raw bytes.
          * @param filepath the file to be written.

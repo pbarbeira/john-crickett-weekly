@@ -58,7 +58,7 @@ class HuffmanEncodeEngine final : public HuffmanEngine{
             const auto root = HuffmanTree::buildTree(frequencyMap);
 
             const auto header = HuffmanTree::encodeHeader(root.get());
-            HmcWriter::writeHeader(outputFile, header);
+            HmcWriter::writeString(outputFile, header);
 
             const auto encoder = Encoder(root.get());
             const auto body = encoder.encode(wText);
