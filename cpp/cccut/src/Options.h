@@ -13,6 +13,7 @@ struct Options{
     std::string filename;
     char delimiter = '\t';
     std::vector<unsigned int> fields;
+    bool stdin = false;
 };
 
 inline std::regex pattern(R"(.*?\.(csv|tsv))");
@@ -77,12 +78,16 @@ class OptionsParser{
                 if(arg.contains("-d")){
                     _handleDelimiter(options.get(), arg, logger);
                 }
-                if(std::regex_match(arg, pattern)){
-                    options->filename = arg;
+                if (arg[0] != '-') {
+                    if(std::regex_match(arg, pattern)){
+                        options->filename = arg;
+                        continue;
+                    }
+                    throw std::invalid_argument("Invalid file name");
                 }
             }
             if (options->filename.empty()) {
-                throw std::invalid_argument("Filename not specified");
+                options->stdin = true;
             }
             return std::move(options);
         };

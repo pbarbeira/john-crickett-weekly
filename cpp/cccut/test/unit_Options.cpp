@@ -44,13 +44,15 @@ TEST(OptionsParserTest, ThrowOnInvalidFilename) {
     } catch(const std::exception& e){}
 }
 
-TEST(OptionsParserTest, ThrowOnNoFilename) {
+TEST(OptionsParserTest, OptionsNoFilename) {
     const auto logger = std::make_unique<StringLogger>();
     try{
         char* argv[] = { "main", "-d.", "-f1" };
         const auto options = OptionsParser::parse(3, argv, logger.get());
+        EXPECT_EQ(options->stdin, true);
+    } catch(const std::exception& e) {
         FAIL();
-    } catch(const std::exception& e){}
+    }
 }
 
 TEST(OptionsParserTest, HandleField) {

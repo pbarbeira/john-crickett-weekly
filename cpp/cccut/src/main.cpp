@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
     try {
         auto options = OptionsParser::parse(argc, argv, logger.get());
 
-        const auto data = Reader::readFile(options->filename);
+        std::vector<std::string> data = options->stdin ? Reader::read() : Reader::readFile(options->filename);
 
         if (data.empty()) {
             logger->log(WARNING, "File is empty.");
