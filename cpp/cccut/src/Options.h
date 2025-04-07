@@ -16,14 +16,15 @@ struct Options{
 };
 
 inline std::regex pattern(R"(.*?\.(csv|tsv))");
+inline std::regex csv_pattern(R"(-f\d*(,\d*)*)");
+inline std::regex ssv_pattern(R"(-f"\d*(\s\d*)*")");
 
 class OptionsParser{
-    static void _handleField(Options* options, const std::string& arg, Logger* logger){
-        if(arg.size() < 3){
-            logger->log(INFO, "-f option must have at least one target field");
-            throw std::invalid_argument("Unspecified value [-f]");
-        }
-        const auto tokens = StringUtils::split(arg.substr(2, arg.size() - 2), ',');
+    static void _handleFieldInput(Options* options, const std::string& arg, Logger* logger, bool ssv = false) {
+        char delim = ssv ? ' ' : ',';
+        //if ssv we remove -f" and final ", otherwise only -f
+        std::string input = arg.substr(ssv ? 3 : 2, arg.size() - (ssv ? 4 : 2));
+        const auto tokens = StringUtils::split(input, delim);
         for (const auto& token : tokens) {
             const int field = std::stoi(token);
             if (field == 0) {
@@ -32,6 +33,22 @@ class OptionsParser{
             }
             options->fields.push_back(field);
         }
+    }
+
+    static void _handleField(Options* options, const std::string& arg, Logger* logger){
+        if(arg.size() < 3){
+            logger->log(INFO, "-f option must have at least one target field");
+            throw std::invalid_argument("Unspecified value [-f]");
+        }
+        if (std::regex_match(arg, csv_pattern)) {
+            _handleFieldInput(options, arg, logger);
+            return;
+        }
+        if (std::regex_match(arg, ssv_pattern)) {
+            _handleFieldInput(options, arg, logger, true);
+            return;
+        }
+        throw std::invalid_argument("Invalid value [-f]");
     }
 
     static void _handleDelimiter(Options* options, const std::string& arg, Logger* logger){
