@@ -13,9 +13,9 @@ int main(int argc, char* argv[]) {
             logger->log(WARNING, "File is empty.");
         }
     }catch (const std::runtime_error& e) {
-        logger->log(ERROR, std::format("RuntimeException", e.what()));
+        logger->log(DEBUG, std::format("RuntimeException\n\t{}", e.what()));
     }catch (const std::invalid_argument& e) {
-        logger->log(ERROR, std::format("InvalidArgumentException", e.what()));
+        logger->log(DEBUG, std::format("InvalidArgumentException\n\t{}", e.what()));
     }
     return 0;
 }

@@ -38,8 +38,7 @@ class OptionsParser{
                 std::stringstream ss;
                 ss << "\n\tUsage:\n\t"
                    << "\tcccut [-f]<fields> <filename>\n\t"
-                   << "\tcccut [-f]<fields> [-d]<delimitir> <filename>\n\t"
-                   << std::endl;
+                   << "\tcccut [-f]<fields> [-d]<delimitir> <filename>";
                 logger->log(INFO, ss.str());
                 throw std::runtime_error("Invalid usage");
             }
