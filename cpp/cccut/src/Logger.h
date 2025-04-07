@@ -29,6 +29,7 @@ class Logger{
         auto timestamp = std::chrono::system_clock::to_time_t(log->timestamp);
         auto logTime = std::put_time(std::localtime(&timestamp), "%Y-%m-%d %H:%M:%S");
 
+        auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(log->timestamp.time_since_epoch()) % 1000;
         auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(log->timestamp.time_since_epoch()) % 1000;
 
         std::string logLevel;
@@ -42,6 +43,7 @@ class Logger{
         std::stringstream ss;
         ss << "[" << logTime
             << "." << std::setw(3) << std::setfill('0') << ms.count()
+            << "." << std::setw(3) << std::setfill('0') << ns.count()
             << "] - [" << logLevel << "] " << log->message << "\n";
         return ss.str();
     }

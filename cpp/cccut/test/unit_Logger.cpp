@@ -10,19 +10,19 @@
 //automatically accumulate logs in a stringstream.
 
 //Used in CanPrintLogs to facilitate result verification
-const std::regex errorPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] - \[ERROR\] Error message)");
-const std::regex warningPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] - \[WARNING\] Warning message)");
-const std::regex infoPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] - \[INFO\] Info message)");
-const std::regex debugPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] - \[DEBUG\] Debug message)");
+const std::regex errorPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}.\d{3}\] - \[ERROR\] Error message)");
+const std::regex warningPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}.\d{3}\] - \[WARNING\] Warning message)");
+const std::regex infoPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}.\d{3}\] - \[INFO\] Info message)");
+const std::regex debugPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}.\d{3}\] - \[DEBUG\] Debug message)");
 
 
 TEST(LoggerTest, CanGetLogs) {
     const auto logger = std::make_unique<StringLogger>();
 
-    logger->log(LogLevel::ERROR, "Error message");
-    logger->log(LogLevel::WARNING, "Warning message");
-    logger->log(LogLevel::INFO, "Info message");
-    logger->log(LogLevel::DEBUG, "Debug message");
+    logger->log(ERROR, "Error message");
+    logger->log(WARNING, "Warning message");
+    logger->log(INFO, "Info message");
+    logger->log(DEBUG, "Debug message");
 
     const auto logs = logger->getLogs();
     EXPECT_EQ(logs.size(), 4);

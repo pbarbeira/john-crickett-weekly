@@ -17,7 +17,5 @@ int main(int argc, char* argv[]) {
     }catch (const std::invalid_argument& e) {
         logger->log(ERROR, std::format("InvalidArgumentException", e.what()));
     }
-    logger->dump();
-
     return 0;
 }
