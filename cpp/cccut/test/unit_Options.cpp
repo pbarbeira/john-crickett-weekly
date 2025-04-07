@@ -94,3 +94,18 @@ TEST(OptionsParserTest, HandleFieldAndDelimiter) {
         FAIL();
     }
 }
+TEST(OptionsParserTest, HandleMultiField) {
+    try{
+        const auto logger = std::make_unique<StringLogger>();
+        char* argv[] = { "main", "-f1,2", "filename.csv" };
+        const auto options = OptionsParser::parse(3, argv, logger.get());
+
+        EXPECT_EQ(options->filename, "filename.csv");
+        EXPECT_EQ(options->delimiter, '\t');
+        EXPECT_EQ(options->fields.size(), 2);
+        EXPECT_EQ(options->fields[0], 1);
+        EXPECT_EQ(options->fields[1], 2);
+    } catch(const std::exception& e){
+        FAIL();
+    }
+}

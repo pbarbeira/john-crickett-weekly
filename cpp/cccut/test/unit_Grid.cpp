@@ -73,6 +73,28 @@ TEST(GridTest, HandleFieldQueryCustomDelimiter) {
     }
 }
 
+TEST(GridTest, HandleMultiField) {
+    const std::vector<std::vector<std::string>> EXPECTED = {
+        { "token00", "token01" },
+        { "token10", "token11" },
+        { "token20", "token21" },
+    };
+    const auto options = std::make_unique<Options>();
+    options->fields = { 1, 2 };
+    options->delimiter = ',';
+    const auto grid = _buildGrid(options->delimiter);
+
+    const auto rows = grid->handle(options.get());
+
+    EXPECT_EQ(rows[0].size(), options->fields.size());
+    EXPECT_EQ(rows.size(), EXPECTED.size());
+    for (int i = 0; i < EXPECTED.size(); i++) {
+        for (int j = 0; j < EXPECTED[i].size(); j++) {
+            EXPECT_EQ(rows[i][j], EXPECTED[i][j]);
+        }
+    }
+}
+
 
 
 
