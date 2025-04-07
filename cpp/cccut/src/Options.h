@@ -11,7 +11,7 @@
 struct Options{
     std::string filename;
     char delimiter = '\t';
-    unsigned int field;
+    unsigned int field{};
 };
 
 inline std::regex pattern(R"(.*?\.(csv|tsv))");
@@ -33,14 +33,14 @@ class OptionsParser{
         options->delimiter = arg[2];
     }
     public:
-        static std::unique_ptr<Options> parse(int argc, char* argv[], Logger* logger){
+        static std::unique_ptr<Options> parse(const int argc, char* argv[], Logger* logger){
             if(argc < 3){
                 std::stringstream ss;
-                ss << "Usage:\n\t"
-                   << argv[0] << " [-f]<fields> <filename>\n\t"
-                   << argv[0] << " [-f]<fields> [-d]<delimitir> <filename>\n\t"
+                ss << "\n\tUsage:\n\t"
+                   << "\tcccut [-f]<fields> <filename>\n\t"
+                   << "\tcccut [-f]<fields> [-d]<delimitir> <filename>\n\t"
                    << std::endl;
-                logger->log(LogLevel::ERROR, ss.str());
+                logger->log(INFO, ss.str());
                 throw std::runtime_error("Invalid usage");
             }
             auto options = std::make_unique<Options>();
@@ -56,7 +56,7 @@ class OptionsParser{
                     options->filename = arg;
                 }
             }
-            if (options->filename == "") {
+            if (options->filename.empty()) {
                 throw std::invalid_argument("Filename not specified");
             }
             return std::move(options);

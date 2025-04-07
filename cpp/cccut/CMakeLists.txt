@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(ccwcut)
+project(cccut)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
@@ -23,7 +23,7 @@ add_executable(run_tests test/test_main.cpp
 
 target_link_libraries(run_tests gtest gmock gtest_main)
 
-add_executable(ccwcut src/main.cpp
+add_executable(cccut src/main.cpp
     src/Reader.h
     src/Options.h
     src/Logger.h

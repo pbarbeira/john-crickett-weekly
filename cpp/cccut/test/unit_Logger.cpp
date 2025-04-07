@@ -6,15 +6,18 @@
 #include "../src/Logger.h"
 #include <regex>
 
+//We test through the StringLogger API since it just a base wrapper to
+//automatically accumulate logs in a stringstream.
+
 //Used in CanPrintLogs to facilitate result verification
-const std::regex errorPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] - \[ERROR\]::Error message)");
-const std::regex warningPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] - \[WARNING\]::Warning message)");
-const std::regex infoPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] - \[INFO\]::Info message)");
-const std::regex debugPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] - \[DEBUG\]::Debug message)");
+const std::regex errorPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] - \[ERROR\] Error message)");
+const std::regex warningPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] - \[WARNING\] Warning message)");
+const std::regex infoPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] - \[INFO\] Info message)");
+const std::regex debugPattern(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] - \[DEBUG\] Debug message)");
 
 
 TEST(LoggerTest, CanGetLogs) {
-    const auto logger = std::make_unique<Logger>();
+    const auto logger = std::make_unique<StringLogger>();
 
     logger->log(LogLevel::ERROR, "Error message");
     logger->log(LogLevel::WARNING, "Warning message");
@@ -26,7 +29,7 @@ TEST(LoggerTest, CanGetLogs) {
 }
 
 TEST(LoggerTest, CanGetLogsAndFlush) {
-    const auto logger = std::make_unique<Logger>();
+    const auto logger = std::make_unique<StringLogger>();
 
     logger->log(LogLevel::ERROR, "Error message");
     logger->log(LogLevel::WARNING, "Warning message");
@@ -42,7 +45,7 @@ TEST(LoggerTest, CanGetLogsAndFlush) {
 
 TEST(LoggerTest, LogLevelError){
     const std::string MESSAGE = "Error";
-    const auto logger = std::make_unique<Logger>();
+    const auto logger = std::make_unique<StringLogger>();
     logger->log(LogLevel::ERROR, MESSAGE);
 
     auto logs = logger->getLogs();
@@ -55,7 +58,7 @@ TEST(LoggerTest, LogLevelError){
 
 TEST(LoggerTest, LogLevelWarning){
     const std::string MESSAGE = "Warning";
-    const auto logger = std::make_unique<Logger>();
+    const auto logger = std::make_unique<StringLogger>();
     logger->log(LogLevel::WARNING, MESSAGE);
 
     auto logs = logger->getLogs();
@@ -65,9 +68,9 @@ TEST(LoggerTest, LogLevelWarning){
     EXPECT_EQ(log->level, LogLevel::WARNING);
     EXPECT_EQ(log->message, MESSAGE);
 }
-TEST(LoggerTest, LogLevelDebug){
+TEST(LoggerTest, LogLevelInfo){
     const std::string MESSAGE = "Info";
-    const auto logger = std::make_unique<Logger>();
+    const auto logger = std::make_unique<StringLogger>();
     logger->log(LogLevel::INFO, MESSAGE);
 
     auto logs = logger->getLogs();
@@ -78,9 +81,9 @@ TEST(LoggerTest, LogLevelDebug){
     EXPECT_EQ(log->message, MESSAGE);
 }
 
-TEST(LoggerTest, LogLevelInfo){
+TEST(LoggerTest, LogLevelDebug){
     const std::string MESSAGE = "Debug";
-    const auto logger = std::make_unique<Logger>();
+    const auto logger = std::make_unique<StringLogger>();
     logger->log(LogLevel::DEBUG, MESSAGE);
 
     auto logs = logger->getLogs();
@@ -94,7 +97,7 @@ TEST(LoggerTest, LogLevelInfo){
 TEST(LoggerTest, MultiLogLevels){
     const std::string DEBUG_MESSAGE = "Debug";
     const std::string WARNING_MESSAGE = "Warning";
-    const auto logger = std::make_unique<Logger>();
+    const auto logger = std::make_unique<StringLogger>();
     logger->log(LogLevel::DEBUG, DEBUG_MESSAGE);
     logger->log(LogLevel::WARNING, WARNING_MESSAGE);
 
@@ -108,21 +111,39 @@ TEST(LoggerTest, MultiLogLevels){
     log = std::move(logs[1]);
     EXPECT_EQ(log->level, LogLevel::WARNING);
     EXPECT_EQ(log->message, WARNING_MESSAGE);
+
+}
+
+TEST(LoggerTest, CanLogToOstream){
+    const std::string MESSAGE = "Debug message";
+    const auto logger = std::make_unique<StringLogger>();
+
+    logger->log(DEBUG, MESSAGE);
+
+    std::string log = logger->dump();
+    //we purposely remove final \n
+    log = log.substr(0, log.size() - 1);
+    EXPECT_EQ(std::regex_match(log, debugPattern), true);
+
+    const auto logs = logger->getLogs();
+    EXPECT_EQ(logs.size(), 1);
+    EXPECT_EQ(logs[0]->level, LogLevel::DEBUG);
+    EXPECT_EQ(logs[0]->message, MESSAGE);
 }
 
 TEST(LoggerTest, CanPrintLogs) {
-    std::stringstream ss;
-    const auto logger = std::make_unique<Logger>();
+    const auto logger = std::make_unique<StringLogger>();
 
-    logger->log(LogLevel::ERROR, "Error message");
-    logger->log(LogLevel::WARNING, "Warning message");
-    logger->log(LogLevel::INFO, "Info message");
-    logger->log(LogLevel::DEBUG, "Debug message");
+    logger->log(ERROR, "Error message");
+    logger->log(WARNING, "Warning message");
+    logger->log(INFO, "Info message");
+    logger->log(DEBUG, "Debug message");
 
-    logger->print(ss);
+    auto str = logger->dump();
 
     std::vector<std::string> logs;
     std::string tmp;
+    std::stringstream ss(str);
     while (std::getline(ss, tmp, '\n')) {
         logs.push_back(tmp);
         tmp.clear();
@@ -134,18 +155,18 @@ TEST(LoggerTest, CanPrintLogs) {
 }
 
 TEST(LoggerTest, CanPrintAndFlushLogs) {
-    std::stringstream ss;
-    const auto logger = std::make_unique<Logger>();
+    const auto logger = std::make_unique<StringLogger>();
 
-    logger->log(LogLevel::ERROR, "Error message");
-    logger->log(LogLevel::WARNING, "Warning message");
-    logger->log(LogLevel::INFO, "Info message");
-    logger->log(LogLevel::DEBUG, "Debug message");
+    logger->log(ERROR, "Error message");
+    logger->log(WARNING, "Warning message");
+    logger->log(INFO, "Info message");
+    logger->log(DEBUG, "Debug message");
 
-    logger->print(ss, true);
+    auto str = logger->dump(true);
 
     std::string tmp;
     std::vector<std::string> logs;
+    std::stringstream ss(str);
     while (std::getline(ss, tmp, '\n')) {
         logs.push_back(tmp);
         tmp.clear();
@@ -154,9 +175,7 @@ TEST(LoggerTest, CanPrintAndFlushLogs) {
     EXPECT_EQ(std::regex_match(logs[1], warningPattern), true);
     EXPECT_EQ(std::regex_match(logs[2], infoPattern), true);
     EXPECT_EQ(std::regex_match(logs[3], debugPattern), true);
-    ss.clear();
 
-    logger->print(ss);
-    const auto result = ss.str();
+    const auto result = logger->dump();
     EXPECT_EQ(result.empty(), true);
 }
