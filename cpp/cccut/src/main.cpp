@@ -19,8 +19,11 @@ int main(int argc, char* argv[]) {
 
         const auto tokens = grid->handle(options.get());
 
-        for (const auto& token : tokens) {
-            std::cout << token << std::endl;
+        for (const auto& row : tokens) {
+            for (const auto& token : row) {
+                std::cout << token << "\t";
+            }
+            std::cout << std::endl;
         }
     }catch (const std::runtime_error& e) {
         logger->log(DEBUG, std::format("RuntimeException\n\t{}", e.what()));

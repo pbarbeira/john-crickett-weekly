@@ -21,11 +21,15 @@ class Grid{
         explicit Grid(std::vector<std::vector<std::string>> grid):
             _grid(std::move(grid)){}
 
-        std::vector<std::string> handle(Options* options) const {
-            std::vector<std::string> out;
+        std::vector<std::vector<std::string>> handle(Options* options) const {
+            std::vector<std::vector<std::string>> out;
             for (int i = 0; i < _grid.size(); ++i) {
-                //field columns start at 1, _grid starts at 0
-                out.push_back(_grid[i][options->field - 1]);
+                std::vector<std::string> row;
+                for (const auto& field : options->fields) {
+                    //field columns start at 1, _grid starts at 0
+                    row.push_back(_grid[i][field - 1]);
+                }
+                out.push_back(row);
             }
             return out;
         }

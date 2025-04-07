@@ -7,11 +7,12 @@
 
 #include <regex>
 #include "Logger.h"
+#include "StringUtils.h"
 
 struct Options{
     std::string filename;
     char delimiter = '\t';
-    unsigned int field{};
+    std::vector<unsigned int> fields;
 };
 
 inline std::regex pattern(R"(.*?\.(csv|tsv))");
@@ -22,12 +23,15 @@ class OptionsParser{
             logger->log(INFO, "-f option must have at least one target field");
             throw std::invalid_argument("Unspecified value [-f]");
         }
-        int field = std::stoi(arg.substr(2, arg.size() - 2));
-        if (field == 0) {
-            logger->log(INFO, "-f option must be positive integer");
-            throw std::invalid_argument("Invalid value [-f]");
+        const auto tokens = StringUtils::split(arg.substr(2, arg.size() - 2), ',');
+        for (const auto& token : tokens) {
+            const int field = std::stoi(token);
+            if (field == 0) {
+                logger->log(INFO, "-f option must be positive integer");
+                throw std::invalid_argument("Invalid value [-f]");
+            }
+            options->fields.push_back(field);
         }
-        options->field = field;
     }
 
     static void _handleDelimiter(Options* options, const std::string& arg, Logger* logger){

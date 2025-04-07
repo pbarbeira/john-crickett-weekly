@@ -47,30 +47,30 @@ TEST(GridTest, InputSmallGrid){
 TEST(GridTest, HandleFieldQueryDefaultDelimiter) {
     const std::vector EXPECTED = { "token00", "token10", "token20" };
     const auto options = std::make_unique<Options>();
-    options->field = 1;
+    options->fields = { 1 };
     const auto grid = _buildGrid(options->delimiter);
 
-    const auto tokens = grid->handle(options.get());
+    const auto rows = grid->handle(options.get());
 
-    EXPECT_EQ(tokens.size(), EXPECTED.size());
-    EXPECT_EQ(tokens[0], EXPECTED[0]);
-    EXPECT_EQ(tokens[1], EXPECTED[1]);
-    EXPECT_EQ(tokens[2], EXPECTED[2]);
+    EXPECT_EQ(rows[0].size(), options->fields.size());
+    for (int i = 0; i < 3; i++) {
+        EXPECT_EQ(rows[i][0], EXPECTED[i]);
+    }
 }
 
 TEST(GridTest, HandleFieldQueryCustomDelimiter) {
     const std::vector EXPECTED = { "token00", "token10", "token20" };
     const auto options = std::make_unique<Options>();
-    options->field = 1;
+    options->fields = { 1 };
     options->delimiter = ',';
     const auto grid = _buildGrid(options->delimiter);
 
-    const auto tokens = grid->handle(options.get());
+    const auto rows = grid->handle(options.get());
 
-    EXPECT_EQ(tokens.size(), EXPECTED.size());
-    EXPECT_EQ(tokens[0], EXPECTED[0]);
-    EXPECT_EQ(tokens[1], EXPECTED[1]);
-    EXPECT_EQ(tokens[2], EXPECTED[2]);
+    EXPECT_EQ(rows[0].size(), options->fields.size());
+    for (int i = 0; i < 3; i++) {
+        EXPECT_EQ(rows[i][0], EXPECTED[i]);
+    }
 }
 
 

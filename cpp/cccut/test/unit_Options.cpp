@@ -60,7 +60,8 @@ TEST(OptionsParserTest, HandleField) {
         const auto options = OptionsParser::parse(3, argv, logger.get());
 
         EXPECT_EQ(options->filename, "filename.csv");
-        EXPECT_EQ(options->field, 1);
+        EXPECT_EQ(options->fields.size(), 1);
+        EXPECT_EQ(options->fields[0], 1);
     } catch(const std::exception& e){
         FAIL();
     }
@@ -87,7 +88,8 @@ TEST(OptionsParserTest, HandleFieldAndDelimiter) {
 
         EXPECT_EQ(options->filename, "filename.csv");
         EXPECT_EQ(options->delimiter, '.');
-        EXPECT_EQ(options->field, 1);
+        EXPECT_EQ(options->fields.size(), 1);
+        EXPECT_EQ(options->fields[0], 1);
     } catch(const std::exception& e){
         FAIL();
     }
