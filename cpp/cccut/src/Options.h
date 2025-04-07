@@ -19,15 +19,20 @@ inline std::regex pattern(R"(.*?\.(csv|tsv))");
 class OptionsParser{
     static void _handleField(Options* options, const std::string& arg, Logger* logger){
         if(arg.size() < 3){
-            logger->log(LogLevel::ERROR, "-f option must have at least one target field");
+            logger->log(INFO, "-f option must have at least one target field");
             throw std::invalid_argument("Unspecified value [-f]");
         }
-        options->field = std::stoi(arg.substr(2, arg.size() - 2));
+        int field = std::stoi(arg.substr(2, arg.size() - 2));
+        if (field == 0) {
+            logger->log(INFO, "-f option must be positive integer");
+            throw std::invalid_argument("Invalid value [-f]");
+        }
+        options->field = field;
     }
 
     static void _handleDelimiter(Options* options, const std::string& arg, Logger* logger){
         if(arg.size() != 3){
-            logger->log(LogLevel::ERROR, "-d option must have one delimiting character");
+            logger->log(INFO, "-d option must have one delimiting character");
             throw std::invalid_argument("Unspecified value [-d]");
         }
         options->delimiter = arg[2];

@@ -1,4 +1,6 @@
 #include <iostream>
+
+#include "Grid.h"
 #include "Options.h"
 #include "Reader.h"
 
@@ -11,6 +13,14 @@ int main(int argc, char* argv[]) {
 
         if (data.empty()) {
             logger->log(WARNING, "File is empty.");
+        }
+
+        const auto grid = Grid::make_grid(data, options->delimiter);
+
+        const auto tokens = grid->handle(options.get());
+
+        for (const auto& token : tokens) {
+            std::cout << token << std::endl;
         }
     }catch (const std::runtime_error& e) {
         logger->log(DEBUG, std::format("RuntimeException\n\t{}", e.what()));

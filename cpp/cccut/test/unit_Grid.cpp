@@ -1,0 +1,79 @@
+//
+// Created by pbarbeira on 07-04-2025.
+//
+
+#ifndef UNIT_GRID_H
+#define UNIT_GRID_H
+
+#include <gtest/gtest.h>
+#include "../src/Grid.h"
+
+TEST(GridTest, NoInputEmptyGrid){
+    std::vector<std::string> INPUT;
+    char delim = ' ';
+
+    auto grid = std::move(Grid::make_grid(INPUT, delim));
+
+    ASSERT_EQ(grid->empty(), true);
+}
+
+//We encapsulate it to use in other tests
+std::unique_ptr<Grid> _buildGrid(const char delim = '\t') {
+    std::stringstream tmp;
+    std::vector<std::string> INPUT;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            tmp << "token" << i << j;
+            if (j != 2) {
+                tmp << delim;
+            }
+        }
+        INPUT.push_back(tmp.str());
+        tmp.str("");
+    }
+
+    return std::move(Grid::make_grid(INPUT, delim));
+}
+
+TEST(GridTest, InputSmallGrid){
+    constexpr char DELIM = ',';
+    const auto grid = _buildGrid(DELIM);
+
+    ASSERT_EQ(grid->empty(), false);
+    EXPECT_EQ(grid->cols(), 3);
+    EXPECT_EQ(grid->rows(), 3);
+}
+
+TEST(GridTest, HandleFieldQueryDefaultDelimiter) {
+    const std::vector EXPECTED = { "token00", "token10", "token20" };
+    const auto options = std::make_unique<Options>();
+    options->field = 1;
+    const auto grid = _buildGrid(options->delimiter);
+
+    const auto tokens = grid->handle(options.get());
+
+    EXPECT_EQ(tokens.size(), EXPECTED.size());
+    EXPECT_EQ(tokens[0], EXPECTED[0]);
+    EXPECT_EQ(tokens[1], EXPECTED[1]);
+    EXPECT_EQ(tokens[2], EXPECTED[2]);
+}
+
+TEST(GridTest, HandleFieldQueryCustomDelimiter) {
+    const std::vector EXPECTED = { "token00", "token10", "token20" };
+    const auto options = std::make_unique<Options>();
+    options->field = 1;
+    options->delimiter = ',';
+    const auto grid = _buildGrid(options->delimiter);
+
+    const auto tokens = grid->handle(options.get());
+
+    EXPECT_EQ(tokens.size(), EXPECTED.size());
+    EXPECT_EQ(tokens[0], EXPECTED[0]);
+    EXPECT_EQ(tokens[1], EXPECTED[1]);
+    EXPECT_EQ(tokens[2], EXPECTED[2]);
+}
+
+
+
+
+#endif //UNIT_GRID_H
