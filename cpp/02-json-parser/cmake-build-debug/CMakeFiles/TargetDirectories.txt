@@ -1,0 +1,3 @@
+/home/pbarbeira/dev/code/john-crickett-weekly/cpp/json-parser/cmake-build-debug/CMakeFiles/json_parser.dir
+/home/pbarbeira/dev/code/john-crickett-weekly/cpp/json-parser/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/pbarbeira/dev/code/john-crickett-weekly/cpp/json-parser/cmake-build-debug/CMakeFiles/rebuild_cache.dir

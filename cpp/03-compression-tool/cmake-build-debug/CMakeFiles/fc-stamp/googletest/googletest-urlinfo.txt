@@ -1,0 +1,12 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=url
+command=/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/pbarbeira/dev/code/john-crickett-weekly/cpp/huffman-encoding/cmake-build-debug/CMakeFiles/fc-stamp/googletest/download-googletest.cmake;COMMAND;/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/pbarbeira/dev/code/john-crickett-weekly/cpp/huffman-encoding/cmake-build-debug/CMakeFiles/fc-stamp/googletest/verify-googletest.cmake;COMMAND;/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/pbarbeira/dev/code/john-crickett-weekly/cpp/huffman-encoding/cmake-build-debug/CMakeFiles/fc-stamp/googletest/extract-googletest.cmake
+source_dir=/home/pbarbeira/dev/code/john-crickett-weekly/cpp/huffman-encoding/cmake-build-debug/_deps/googletest-src
+work_dir=/home/pbarbeira/dev/code/john-crickett-weekly/cpp/huffman-encoding/cmake-build-debug/_deps
+url(s)=https://github.com/google/googletest/archive/refs/heads/main.zip
+hash=
+      no_extract=
+

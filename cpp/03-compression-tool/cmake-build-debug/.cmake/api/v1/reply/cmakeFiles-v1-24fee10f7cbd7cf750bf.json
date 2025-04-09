@@ -1,0 +1,317 @@
+{
+	"inputs" : 
+	[
+		{
+			"path" : "CMakeLists.txt"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/CMakeFiles/3.30.5/CMakeSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakeSystemSpecificInitialize.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Platform/Linux-Initialize.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/CMakeFiles/3.30.5/CMakeCCompiler.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakeSystemSpecificInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakeGenericSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakeInitializeConfigs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Platform/Linux.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Platform/UnixPaths.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakeCInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Compiler/GNU-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Platform/Linux-GNU-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Platform/Linux-GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakeCXXInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Compiler/GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Platform/Linux-GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Platform/Linux-GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/FetchContent.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/ExternalProject/shared_internal_commands.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/ExternalProject/download.cmake.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/ExternalProject/extractfile.cmake.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/ExternalProject/RepositoryInfo.txt.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/ExternalProject/stepscript.cmake.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/ExternalProject/UpdateInfo.txt.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/ExternalProject/stepscript.cmake.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/ExternalProject/PatchInfo.txt.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/ExternalProject/stepscript.cmake.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/_deps/googletest-src/CMakeLists.txt"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakeDependentOption.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/GNUInstallDirs.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/_deps/googletest-src/googlemock/CMakeLists.txt"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindThreads.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CheckLibraryExists.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CheckIncludeFile.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CheckCSourceCompiles.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindPackageMessage.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/_deps/googletest-src/googlemock/cmake/gmock.pc.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/_deps/googletest-src/googlemock/cmake/gmock_main.pc.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/_deps/googletest-src/googletest/CMakeLists.txt"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/_deps/googletest-src/googletest/cmake/internal_utils.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindThreads.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CheckLibraryExists.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CheckIncludeFile.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CheckCSourceCompiles.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Internal/CheckSourceCompiles.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindPackageMessage.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CMakePackageConfigHelpers.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/WriteBasicConfigVersionFile.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/_deps/googletest-src/googletest/cmake/Config.cmake.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/_deps/googletest-src/googletest/cmake/gtest.pc.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/_deps/googletest-src/googletest/cmake/gtest_main.pc.in"
+		}
+	],
+	"kind" : "cmakeFiles",
+	"paths" : 
+	{
+		"build" : "/home/pbarbeira/dev/code/john-crickett-weekly/cpp/huffman-encoding/cmake-build-debug",
+		"source" : "/home/pbarbeira/dev/code/john-crickett-weekly/cpp/huffman-encoding"
+	},
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 1
+	}
+}
