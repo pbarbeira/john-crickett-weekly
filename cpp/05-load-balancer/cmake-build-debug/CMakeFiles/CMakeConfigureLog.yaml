@@ -544,3 +544,36 @@ events:
       Running the CXX compiler's linker: "/usr/bin/ld" "-v"
       GNU ld (GNU Binutils for Ubuntu) 2.42
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/CheckCSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindThreads.cmake:97 (CHECK_C_SOURCE_COMPILES)"
+      - "/home/pbarbeira/dev/tools/CLion-2023.1/bin/cmake/linux/x64/share/cmake-3.30/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "cmake-build-debug/_deps/googletest-src/googletest/cmake/internal_utils.cmake:66 (find_package)"
+      - "cmake-build-debug/_deps/googletest-src/googletest/CMakeLists.txt:83 (config_compiler_and_linker)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/home/pbarbeira/dev/code/john-crickett-weekly/cpp/05-load-balancer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-DwXyz7"
+      binary: "/home/pbarbeira/dev/code/john-crickett-weekly/cpp/05-load-balancer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-DwXyz7"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/home/pbarbeira/dev/code/john-crickett-weekly/cpp/05-load-balancer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-DwXyz7'
+        
+        Run Build Command(s): /home/pbarbeira/dev/tools/CLion-2023.1/bin/ninja/linux/x64/ninja -v cmTC_2fc0c
+        [1/2] /usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD  -fdiagnostics-color=always -o CMakeFiles/cmTC_2fc0c.dir/src.c.o -c /home/pbarbeira/dev/code/john-crickett-weekly/cpp/05-load-balancer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-DwXyz7/src.c
+        [2/2] : && /usr/bin/cc   CMakeFiles/cmTC_2fc0c.dir/src.c.o -o cmTC_2fc0c   && :
+        
+      exitCode: 0
+...
