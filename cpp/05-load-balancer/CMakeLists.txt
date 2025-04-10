@@ -35,4 +35,5 @@ add_executable(be src/be/main.cpp
 add_executable(lb src/lb/main.cpp
         src/lib/Logger.h
         src/Server.h
+        src/Client.h
 )

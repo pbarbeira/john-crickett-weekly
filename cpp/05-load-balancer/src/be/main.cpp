@@ -11,17 +11,20 @@ void* get_in_addr(sockaddr *sa){
     return &(reinterpret_cast<sockaddr_in6 *>(sa)->sin6_addr);
 }
 
-std::string serverStub(Logger* logger, sockaddr_storage& addr) {
+void serverStub(Logger* log, int sockfd, sockaddr_storage& addr) {
     char buffer[INET6_ADDRSTRLEN];
     inet_ntop(addr.ss_family, get_in_addr(reinterpret_cast<sockaddr *>(&addr)),
         buffer, sizeof buffer);
-    logger->debug( std::format("Received request from [{}]", buffer));
-    logger->debug("Get / HTTP/1.1");
-    logger->debug("Host: localhost");
-    logger->debug("User-Agent: curl/7.85.0");
-    logger->debug("Accept: */*");
+    log->debug( std::format("Received request from [{}]", buffer));
+    log->debug("Get / HTTP/1.1");
+    log->debug("Host: localhost");
+    log->debug("User-Agent: curl/7.85.0");
+    log->debug("Accept: */*");
 
-    return "Hello from Backend Server!";
+    const std::string msg = "Hello from Backend Server!\n";
+    if (send(sockfd, msg.c_str(), msg.size(), 0) == -1) {
+        log->log(ERROR, "Server: could not send response");
+    };
 }
 
 int main(int argc, char* argv[]){
