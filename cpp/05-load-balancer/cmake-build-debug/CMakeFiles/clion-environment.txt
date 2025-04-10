@@ -1,4 +1,0 @@
-ToolSet: 1.0 (local)Ninja: 1.12.1@/home/pbarbeira/dev/tools/CLion-2023.1/bin/ninja/linux/x64/ninja
-Options: 
-
-Options:-DCMAKE_MAKE_PROGRAM=/home/pbarbeira/dev/tools/CLion-2023.1/bin/ninja/linux/x64/ninja
