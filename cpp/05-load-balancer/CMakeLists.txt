@@ -29,11 +29,17 @@ target_link_libraries(run_unit_logger ${TEST_LIBS})
 
 add_executable(be src/be/main.cpp
         src/lib/Logger.h
+        src/lib/StringUtils.h
+
         src/Server.h
+        src/Http.h
 )
 
 add_executable(lb src/lb/main.cpp
         src/lib/Logger.h
+        src/lib/StringUtils.h
+
         src/Server.h
         src/Client.h
+        src/Http.h
 )

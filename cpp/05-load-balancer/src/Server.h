@@ -12,8 +12,10 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
-#include <map>
+#include <utility>
+
 #include "lib/Logger.h"
+#include "Http.h"
 
 class Server{
     protected:
@@ -89,45 +91,9 @@ class Server{
         }
     }
 
-    explicit Server(Logger* logger, const std::string& port, int backlog):
-        _log(logger), _port(port), _backlog(backlog) {
+    explicit Server(std::string  port, const int backlog, Logger* logger = nullptr):
+        _log(logger), _port(std::move(port)), _backlog(backlog) {
         _init();
-    }
-};
-
-struct HttpRequest  {
-    std::string method;
-    std::string path;
-    std::string http_version;
-    std::map<std::string, std::string> headers;
-    std::string body;
-};
-
-struct HttpResponse {
-    std::map<std::string, std::string> headers;
-    int status;
-    std::string message;
-    std::string body;
-
-    static std::string buildMsg(const std::unique_ptr<HttpResponse>& response) {
-        switch (response->status) {
-            case 200: return ok(response);
-            default: return "";
-        }
-    }
-
-    static std::string ok(const std::unique_ptr<HttpResponse> &response) {
-        std::stringstream ss;
-        ss << "HTTP/1.1 " << response->status << "\r\n";
-        if (!response->message.empty()) {
-            ss << response->message << "\r\n";
-        }
-        for (const auto& [headerName, headerValue] : response->headers) {
-            ss << headerName << ": " << headerValue << "\r\n";
-        }
-        ss << "\r\n" << response->body << "\r\n";
-
-        return ss.str();
     }
 };
 
@@ -144,20 +110,19 @@ class HttpServer : public Server{
                 break;
         }
 
-        std::erase(request_data, '\r');
-        std::cout << request_data;
-
         _log->debug("Server: HTTP/1.1 200 OK");
 
-        std::istringstream ss(request_data);
-        return std::make_unique<HttpRequest>();
+        std::erase(request_data, '\r');
+        const std::stringstream ss(request_data);
+
+        return std::move(HttpRequest::createRequest(ss));
     }
 
     public:
-        explicit HttpServer(Logger* logger, const std::string& port, int backlog):
-            Server(logger, port, backlog) {}
+        explicit HttpServer(const std::string& port, int backlog, Logger* logger = nullptr):
+            Server(port, backlog, logger) {}
 
-        void run(const std::function<const std::unique_ptr<HttpResponse>()>& handle) {
+        void run(const std::function<const std::unique_ptr<HttpResponse>(std::unique_ptr<HttpRequest>)>& handle) {
             _log->log(DEBUG, std::format("Listening on localhost:{}", _port));
             while(1) {
                 sockaddr_storage their_addr{}; // connector's address information
@@ -171,8 +136,8 @@ class HttpServer : public Server{
 
                 auto request = std::move(_handleHttpRequest(new_fd));
 
-                const auto response = handle();
-                const std::string msg = HttpResponse::buildMsg(std::move(response));
+                const auto response = handle(std::move(request));
+                const std::string msg = response->buildMsg();
 
                 if (send(new_fd, msg.c_str(), msg.size(), 0) == -1) {
                     _log->log(ERROR, "Server: could not send response");
