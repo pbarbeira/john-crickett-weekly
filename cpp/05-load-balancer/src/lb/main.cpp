@@ -5,6 +5,7 @@
 #include "../Server.h"
 #include "../Client.h"
 #include "../lib/Logger.h"
+#include "LoadBalancer.h"
 
 int main(int argc, char* argv[]) {
     const auto logger = std::make_unique<ConsoleLogger>(false);
@@ -15,10 +16,14 @@ int main(int argc, char* argv[]) {
     }
 
     auto server = HttpServer(argv[1], 20, logger.get());
-    const auto client = std::make_unique<HttpClient>("localhost", "1338", logger.get());
+    std::vector<std::string> servers = {
+        "http://localhost:8080",
+        "http://localhost:8081",
+    };
+    const auto lb = std::make_unique<LoadBalancer>(servers, logger.get());
 
     auto serverStub = [&](std::unique_ptr<HttpRequest> request)-> std::unique_ptr<HttpResponse> {
-        return std::move(client->sendRequest(std::move(request)));
+        return std::move(lb->processRequest(std::move(request)));
     };
     server.run(serverStub);
 

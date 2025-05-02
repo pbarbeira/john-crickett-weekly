@@ -13,13 +13,16 @@ int main(const int argc, char* argv[]){
 
     auto server = HttpServer(argv[1], 20, logger.get());
     auto serverStub = [&](std::unique_ptr<HttpRequest> request)-> std::unique_ptr<HttpResponse> {
-        std::stringstream ss;
-        ss << "HTTP/1.1 200 OK\n"
-            << "Content-length: 27\n"
-            << "Content-type: text/plain\n"
-            << "\n";
-        ss << "Hello from Backend Server!";
-        return HttpResponse::createResponse(ss);
+        std::cout << request->buildMsg("\n");
+        auto out = std::make_unique<HttpResponse>();
+        out->status = 200;
+        out->body = "Hello from Backend Server!";
+        out->headers = {
+            { "Content-length", std::to_string(out->body.size()) },
+            { "Content-type", "text/plain" }
+        };
+        logger->debug("Responded with a hello message");
+        return std::move(out);
     };
 
     server.run(serverStub);

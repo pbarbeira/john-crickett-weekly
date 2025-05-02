@@ -6,7 +6,7 @@
 #define REQUEST_H
 
 #include <memory>
-#include <map>
+#include <unordered_map>
 #include <sstream>
 
 #include "lib/StringUtils.h"
@@ -14,14 +14,14 @@
 using VectorItStr = std::vector<std::string>::const_iterator;
 
 struct _HttpBase {
-    std::map<std::string, std::string> headers{};
+    std::unordered_map<std::string, std::string> headers{};
     std::string body;
 
-    void buildMsg(std::stringstream& ss) const {
+    void buildMsg(std::stringstream& ss, const std::string& lineBreak = "\r\n") const {
         for (const auto& [headerName, headerValue] : headers) {
-            ss << headerName << ": " << headerValue << "\r\n";
+            ss << headerName << ": " << headerValue << lineBreak;
         }
-        ss << "\r\n" << body << "\r\n";
+        ss << lineBreak << body << "\r\n";
     }
 
         void _parseHeaders(VectorItStr begin, const VectorItStr end) {
@@ -58,11 +58,11 @@ struct HttpRequest : _HttpBase {
       return HttpMethod::GET;
     }
 
-    std::string buildMsg() {
+    std::string buildMsg(const std::string& lineBreak = "\r\n") {
         std::stringstream ss;
-        ss << _method() << " " << path<< " HTTP/1.1 " << "\r\n"
-            << "Host: " << host << "\r\n";
-        _HttpBase::buildMsg(ss);
+        ss << _method() << " " << path<< " HTTP/1.1 " << lineBreak
+            << "Host: " << host << lineBreak;
+        _HttpBase::buildMsg(ss, lineBreak);
 
         return ss.str();
     }
@@ -115,7 +115,7 @@ struct HttpResponse : _HttpBase {
 
     std::string ok() const {
         std::stringstream ss;
-        ss << "HTTP/1.1 " << status << "\r\n";
+        ss << "HTTP/1.1 " << status << " OK\r\n";
         if (!message.empty()) {
             ss << message << "\r\n";
         }

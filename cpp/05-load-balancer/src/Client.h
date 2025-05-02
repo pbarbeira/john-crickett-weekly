@@ -127,11 +127,11 @@ class HttpClient : public Client{
         [[nodiscard]] std::unique_ptr<HttpResponse> sendRequest(const std::unique_ptr<HttpRequest> &request) {
             _init();
 
-            _log->info(std::format("Client: Connecting to {}:{}", _host, _port));
+            _log->debug(std::format("Client: Connecting to {}:{}", _host, _port));
 
             const auto msg = request->buildMsg();
             if (send(_sockfd, msg.c_str(), msg.size(), 0) == -1) {
-                _log->log(ERROR, "Client: could not send request");
+                _log->error("Client: could not send request");
             }
 
             auto response = _handleHttpResponse();
